@@ -29,6 +29,32 @@
     "scents": {
       "type": "scents",
       "blocks": {
+        "product_card_6HtU3c": {
+          "type": "product_card",
+          "settings": {
+            "product": "velvet-chantero-x-dr-mickey-mehta",
+            "name": "Bequest",
+            "subtitle": "Citrus woody · Confident",
+            "badge": "Citrus · Woody",
+            "notes": "A crisp opening moves into warm cashmere and an ambroxan trail.",
+            "price_text": "From ₹1,200 · 3ml to 100ml",
+            "link": "",
+            "limited": true
+          }
+        },
+        "product_card_QMLJxi": {
+          "type": "product_card",
+          "settings": {
+            "product": "dame",
+            "name": "Bequest",
+            "subtitle": "Citrus woody · Confident",
+            "badge": "Citrus · Woody",
+            "notes": "A crisp opening moves into warm cashmere and an ambroxan trail.",
+            "price_text": "From ₹1,200 · 3ml to 100ml",
+            "link": "",
+            "limited": true
+          }
+        },
         "product_card_DAWae3": {
           "type": "product_card",
           "settings": {
@@ -44,6 +70,8 @@
         }
       },
       "block_order": [
+        "product_card_6HtU3c",
+        "product_card_QMLJxi",
         "product_card_DAWae3"
       ],
       "settings": {
