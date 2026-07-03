@@ -35,16 +35,6 @@
       >
         <source src="{{ section.settings.video_desktop }}" type="video/mp4" />
       </video>
-    {%- else -%}
-      <video
-        class="hero-bg-video"
-        autoplay muted loop playsinline webkit-playsinline
-        preload="auto"
-        poster="{{ 'hero-bg-desktop.png' | asset_url }}"
-        id="heroVideoDesktop"
-      >
-        <source src="{{ 'hero-desktop.mp4' | asset_url }}" type="video/mp4" />
-      </video>
     {%- endif -%}
 
     <!-- Mobile video (hidden on desktop, shown on mobile via responsive.css) -->
