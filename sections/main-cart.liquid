@@ -1,0 +1,65 @@
+<div class="cart-page wrap">
+  <h1 class="display-md r">{{ 'cart.general.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-page-empty r d1">
+      <p>{{ 'cart.general.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-gold">
+        {{ 'cart.general.continue_browsing' | t | default: 'Continue Shopping' }}
+      </a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page-form">
+      <div class="cart-page-items">
+        {%- for item in cart.items -%}
+          <div class="cart-page-item">
+            <a href="{{ item.url }}" class="cart-page-item-img">
+              {{
+                item.image
+                | image_url: width: 200
+                | image_tag:
+                  loading: 'lazy',
+                  alt: item.image.alt | escape | default: item.title,
+                  widths: '100, 150, 200'
+              }}
+            </a>
+            <div class="cart-page-item-info">
+              <a href="{{ item.url }}" class="cart-page-item-title">{{ item.product_title }}</a>
+              {%- if item.variant.title != 'Default Title' -%}
+                <p class="cart-page-item-variant">{{ item.variant.title }}</p>
+              {%- endif -%}
+              <p class="cart-page-item-price">{{ item.final_line_price | money }}</p>
+              <div class="cart-page-item-qty">
+                <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" class="qty-btn" aria-label="Decrease">−</a>
+                <span class="qty-n">{{ item.quantity }}</span>
+                <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" class="qty-btn" aria-label="Increase">+</a>
+              </div>
+            </div>
+            <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" class="cart-page-item-remove" aria-label="Remove">✕</a>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="cart-page-summary">
+        <div class="cart-page-subtotal">
+          <span>{{ 'cart.general.subtotal' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="cart-page-tax-note">{{ 'cart.general.taxes_included_and_shipping_policy_html' | t }}</p>
+        <button type="submit" name="checkout" class="btn-full">
+          {{ 'cart.general.checkout' | t }}
+        </button>
+        <a href="{{ routes.root_url }}" class="btn-text" style="display:block;text-align:center;margin-top:16px;">
+          {{ 'cart.general.continue_shopping_link_html' | t | default: 'Continue Shopping' }}
+        </a>
+      </div>
+    </form>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cart",
+  "tag": "div"
+}
+{% endschema %}

@@ -1,0 +1,88 @@
+<div class="statement">
+  <div class="statement-inner">
+
+    <div class="statement-item r">
+      <span class="stmt-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+        </svg>
+      </span>
+      <span class="stmt-text">{{ section.settings.item1_text }}</span>
+    </div>
+
+    <div class="statement-item r d1">
+      <span class="stmt-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </span>
+      <span class="stmt-text">{{ section.settings.item2_text }}</span>
+    </div>
+
+    <div class="statement-item r d2">
+      <span class="stmt-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 12 20 22 4 22 4 12"/>
+          <rect x="2" y="7" width="20" height="5"/>
+          <line x1="12" y1="22" x2="12" y2="7"/>
+          <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
+          <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+        </svg>
+      </span>
+      <span class="stmt-text">{{ section.settings.item3_text }}</span>
+    </div>
+
+    <div class="statement-item r d3">
+      <span class="stmt-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13"/>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+          <circle cx="5.5" cy="18.5" r="2.5"/>
+          <circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+      </span>
+      <span class="stmt-text">{{ section.settings.item4_text }}</span>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Brand Statement",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "item1_text",
+      "label": "Item 1",
+      "default": "<p><strong>Parfum grade</strong> · 24% oil concentration</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "item2_text",
+      "label": "Item 2",
+      "default": "<p>Formulated by <strong>master perfumers</strong> in Grasse</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "item3_text",
+      "label": "Item 3",
+      "default": "<p>Complimentary <strong>2ml sampler</strong> with every order</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "item4_text",
+      "label": "Item 4",
+      "default": "<p>Delivered <strong>across India</strong> · Express in 24 hrs</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Statement"
+    }
+  ]
+}
+{% endschema %}

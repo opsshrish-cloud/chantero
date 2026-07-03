@@ -1,0 +1,70 @@
+<div class="collection-wrap wrap">
+  <div class="collection-header r">
+    <h1 class="display-md">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <p class="collection-desc">{{ collection.description }}</p>
+    {%- endif -%}
+    <p class="collection-count">{{ collection.products_count }} products</p>
+  </div>
+
+  {%- if collection.products_count == 0 -%}
+    <p class="collection-empty">{{ 'collections.general.no_matches' | t }}</p>
+  {%- else -%}
+    <div class="collection-grid">
+      {%- paginate collection.products by section.settings.products_per_page -%}
+        {%- for product in collection.products -%}
+          {%- assign delay_n    = forloop.index0 | modulo: 5 -%}
+          {%- assign card_class = 'cs-card r d' | append: delay_n -%}
+          {%- render 'product-card',
+            card_product: product,
+            card_class: card_class,
+            img_class: 'cs-img',
+            wrap_class: 'cs-img-wrap'
+          -%}
+        {%- endfor -%}
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">
+            {%- if paginate.previous -%}
+              <a class="btn btn-outline-gold" href="{{ paginate.previous.url }}">
+                {{ 'general.pagination.previous' | t }}
+              </a>
+            {%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="pagination-page">{{ part.title }}</a>
+              {%- else -%}
+                <span class="pagination-page {% if part.title == paginate.current_page %}active{% endif %}">
+                  {{ part.title }}
+                </span>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}
+              <a class="btn btn-outline-gold" href="{{ paginate.next.url }}">
+                {{ 'general.pagination.next' | t }}
+              </a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16
+    }
+  ]
+}
+{% endschema %}

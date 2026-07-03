@@ -1,0 +1,108 @@
+<section class="stores" aria-labelledby="storesHeading">
+  <div class="stores-inner">
+    <div class="stores-head r" style="text-align:center;margin-bottom:clamp(32px,4.5vw,56px);">
+      <span class="section-label" style="justify-content:center;"><span class="rule"></span>{{ section.settings.label | default: 'Experience Counters' }}</span>
+      <h2 class="display-md" id="storesHeading" style="margin-top:12px;">{{ section.settings.heading | default: 'Smell it first. Choose it slowly.' }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="body-md" style="max-width:520px;margin:16px auto 0;">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="stores-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'store' -%}
+          {%- assign delay = 'd' | append: forloop.index0 -%}
+          <div class="store-card r {{ delay }}" {{ block.shopify_attributes }}>
+            <span class="store-num" style="font-family:var(--sans);font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;" aria-hidden="true">0{{ forloop.index }}</span>
+            <p class="store-city" style="font-family:var(--sans);font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;">{{ block.settings.city }}</p>
+            <h3 class="store-name">{{ block.settings.name }}</h3>
+            <p class="store-address">{{ block.settings.address }}</p>
+            <p class="store-hours">{{ block.settings.hours }}</p>
+            {%- if block.settings.cta_label != blank -%}
+              <a class="btn-text" style="margin-top:12px;" href="{{ block.settings.cta_url | default: '#' }}">{{ block.settings.cta_label }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Offline Stores",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Experience Counters"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Smell it first. Choose it slowly."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Visit a partner location to test Chantèro on skin and compare the dry-down before you buy."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "store",
+      "name": "Store",
+      "settings": [
+        {
+          "type": "text",
+          "id": "city",
+          "label": "City",
+          "default": "Mumbai"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Store name",
+          "default": "Palladium Experience Desk"
+        },
+        {
+          "type": "textarea",
+          "id": "address",
+          "label": "Address",
+          "default": "Ground Floor, Palladium Mall\nSenapati Bapat Marg, Lower Parel, Mumbai 400013"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Hours",
+          "default": "Mon–Sun · 11 AM to 8 PM"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "Plan your visit"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Offline Stores",
+      "blocks": [
+        { "type": "store", "settings": { "city": "Mumbai", "name": "Palladium Experience Desk", "address": "Ground Floor, Palladium Mall\nSenapati Bapat Marg, Lower Parel, Mumbai 400013", "hours": "Mon–Sun · 11 AM to 8 PM", "cta_label": "Plan your visit" } },
+        { "type": "store", "settings": { "city": "Delhi NCR", "name": "DLF Avenue Fragrance Bar", "address": "First Floor, DLF Avenue\nSaket District Centre, New Delhi 110017", "hours": "Mon–Sun · 12 PM to 8 PM", "cta_label": "Plan your visit" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

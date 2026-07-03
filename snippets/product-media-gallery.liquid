@@ -1,0 +1,90 @@
+{%- comment -%}
+  Product image gallery — thumbs + main image + dot nav.
+  Usage: {% render 'product-media-gallery', product: product %}
+{%- endcomment -%}
+
+{%- liquid
+  assign media_count = product.images.size
+-%}
+
+<div class="gallery r" id="productGallery" data-media-count="{{ media_count }}">
+
+  <!-- Thumbnails -->
+  {%- if media_count > 1 -%}
+    <div class="thumbs" id="thumbs" role="list" aria-label="Product images">
+      {%- for image in product.images -%}
+        <div
+          class="thumb{% if forloop.first %} active{% endif %}"
+          data-idx="{{ forloop.index0 }}"
+          role="listitem"
+          tabindex="0"
+          aria-label="View image {{ forloop.index }}"
+          aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+        >
+          {{
+            image
+            | image_url: width: 200
+            | image_tag:
+              loading: 'lazy',
+              alt: image.alt | escape | default: product.title,
+              widths: '100, 150, 200'
+          }}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <!-- Main image -->
+  <div style="position:relative;">
+    <div class="main-img-wrap">
+      {%- assign first_image = product.featured_image -%}
+      {%- if first_image != blank -%}
+        {{
+          first_image
+          | image_url: width: 900
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'main-img',
+            id: 'mainImg',
+            alt: first_image.alt | escape | default: product.title,
+            widths: '480, 700, 900'
+        }}
+      {%- endif -%}
+
+      {%- if product.metafields.custom.product_subtitle != blank -%}
+        <span class="img-tag">{{ product.title }} · {{ product.metafields.custom.product_subtitle }}</span>
+      {%- endif -%}
+    </div>
+
+    <!-- Dots -->
+    {%- if media_count > 1 -%}
+      <div class="img-dots" id="dots" role="tablist" aria-label="Image navigation">
+        {%- for image in product.images -%}
+          <span
+            class="img-dot{% if forloop.first %} active{% endif %}"
+            data-idx="{{ forloop.index0 }}"
+            role="tab"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            aria-label="Image {{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          ></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <!-- Preload remaining images as data attributes for JS swap -->
+  {%- for image in product.images -%}
+    {%- unless forloop.first -%}
+      <span
+        class="gallery-img-data"
+        data-idx="{{ forloop.index0 }}"
+        data-src="{{ image | image_url: width: 900 }}"
+        data-alt="{{ image.alt | escape | default: product.title }}"
+        style="display:none;"
+      ></span>
+    {%- endunless -%}
+  {%- endfor -%}
+
+</div>

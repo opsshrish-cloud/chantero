@@ -1,0 +1,17 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "tagline": "\"Worn once. Never forgotten. Formulated in Grasse, France.\"",
+        "fragrances_menu_label": "Fragrances",
+        "gifting_menu_label": "Gifting",
+        "concierge_label": "Concierge",
+        "copyright_suffix": "All rights reserved. Crafted in France."
+      }
+    }
+  },
+  "order": ["footer"]
+}

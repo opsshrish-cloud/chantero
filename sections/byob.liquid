@@ -1,0 +1,169 @@
+<section class="byob" aria-labelledby="byobHeading">
+  <div class="wrap">
+    <div class="byob-inner">
+      <div class="byob-head">
+        <div>
+          <span class="section-label r"><span class="rule"></span>{{ section.settings.label | default: 'Bundle Atelier' }}</span>
+          <h2 class="display-md r d1" id="byobHeading">{{ section.settings.heading | default: 'Create a scent edit for every occasion.' }}</h2>
+          {%- if section.settings.body != blank -%}
+            <p class="body-lg r d2" style="margin-top:16px;max-width:440px;">{{ section.settings.body }}</p>
+          {%- endif -%}
+          {%- if section.settings.cta_label != blank -%}
+            <a class="btn btn-gold r d3" style="display:inline-flex;margin-top:28px;" href="{{ section.settings.cta_url | default: routes.collections_url }}">{{ section.settings.cta_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="byob-grid r d1">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'product_card' -%}
+            {%- liquid
+              assign byob_prod = all_products[block.settings.product]
+            -%}
+            <a
+              class="byob-card"
+              href="{{ byob_prod.url | default: block.settings.link | default: '#' }}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if byob_prod != blank and byob_prod.featured_image -%}
+                {{
+                  byob_prod.featured_image
+                  | image_url: width: 600
+                  | image_tag:
+                    class: 'byob-card-img',
+                    loading: 'lazy',
+                    alt: byob_prod.featured_image.alt | default: byob_prod.title,
+                    width: 600,
+                    height: 600
+                }}
+              {%- elsif block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 600
+                  | image_tag:
+                    class: 'byob-card-img',
+                    loading: 'lazy',
+                    alt: block.settings.name,
+                    width: 600,
+                    height: 600
+                }}
+              {%- else -%}
+                <img
+                  src="{{ block.settings.fallback_asset | asset_url }}"
+                  alt="{{ block.settings.name }}"
+                  class="byob-card-img"
+                  loading="lazy"
+                  width="600"
+                  height="600"
+                />
+              {%- endif -%}
+              <div class="byob-card-overlay"></div>
+              <div class="byob-card-info">
+                <div class="byob-card-name">
+                  {%- if byob_prod != blank -%}{{ byob_prod.title }}{%- else -%}{{ block.settings.name }}{%- endif -%}
+                </div>
+                <div class="byob-card-price">
+                  {%- if byob_prod != blank -%}
+                    {{ byob_prod.price_min | money }}
+                  {%- else -%}
+                    {{ block.settings.price_text }}
+                  {%- endif -%}
+                </div>
+              </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Build Your Bundle",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Bundle Atelier"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Create a scent edit for every occasion."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Pair a daily signature with an evening scent, add discovery vials, and unlock automatic savings when your selection includes two or more items."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Build My Bundle →"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (if no product)"
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Fallback asset filename",
+          "placeholder": "bequest-bottle.png"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name (fallback)",
+          "default": "Bequest"
+        },
+        {
+          "type": "text",
+          "id": "price_text",
+          "label": "Price text (fallback)",
+          "default": "From ₹1,200"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (if no product)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Build Your Bundle",
+      "blocks": [
+        { "type": "product_card", "settings": { "name": "Bequest", "fallback_asset": "bequest-bottle.png", "price_text": "50ml · ₹2,200" } },
+        { "type": "product_card", "settings": { "name": "Dame", "fallback_asset": "dame-bottle.png", "price_text": "50ml · ₹3,200" } },
+        { "type": "product_card", "settings": { "name": "Velvet", "fallback_asset": "velvet-bottle.png", "price_text": "50ml · ₹2,800" } },
+        { "type": "product_card", "settings": { "name": "Discovery Set", "price_text": "3×3ml · ₹500" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

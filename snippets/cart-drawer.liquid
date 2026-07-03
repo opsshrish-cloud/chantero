@@ -1,0 +1,106 @@
+<div class="cart-drawer-overlay" id="cartDrawerOverlay" aria-hidden="true"></div>
+
+<div
+  id="cartDrawer"
+  class="cart-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ 'cart.general.title' | t }}"
+  aria-hidden="true"
+>
+  <!-- Header -->
+  <div class="cart-drawer-head">
+    <div>
+      <span class="cart-drawer-title">{{ 'cart.general.title' | t | default: 'Your Selection' }}</span>
+      <span class="cart-drawer-count" id="cartDrawerCount" aria-live="polite">{{ cart.item_count }}</span>
+    </div>
+    <button class="cart-drawer-close" aria-label="{{ 'accessibility.close' | t | default: 'Close' }}">&#10005;</button>
+  </div>
+
+  <!-- Shipping threshold -->
+  {%- assign threshold_cents = 650000 -%}
+  {%- assign remaining = threshold_cents | minus: cart.total_price -%}
+  <div class="cart-threshold-bar" id="cartThreshold" aria-live="polite">
+    {%- if cart.total_price >= threshold_cents -%}
+      <span>{{ 'cart.threshold.reached' | t | default: 'You qualify for complimentary shipping' }}</span>
+    {%- else -%}
+      <span>Add <strong>{{ remaining | money }}</strong> more for complimentary shipping</span>
+    {%- endif -%}
+    <div class="cart-threshold-track">
+      {%- assign pct = cart.total_price | times: 100 | divided_by: threshold_cents -%}
+      {%- if pct > 100 -%}{%- assign pct = 100 -%}{%- endif -%}
+      <div class="cart-threshold-fill" style="width:{{ pct }}%;"></div>
+    </div>
+  </div>
+
+  <!-- Line items -->
+  <div class="cart-drawer-lines" id="cartDrawerLines">
+    {%- if cart.item_count == 0 -%}
+      <div class="cart-drawer-empty">
+        <p>{{ 'cart.empty.title' | t | default: 'Your cart is empty' }}</p>
+        <p>{{ 'cart.empty.subtitle' | t | default: 'Choose a scent, sample first, or build a gift.' }}</p>
+        <a class="btn btn-gold" href="{{ routes.collections_url }}">{{ 'cart.empty.cta' | t | default: 'Explore Collection' }}</a>
+      </div>
+    {%- else -%}
+      {%- for item in cart.items -%}
+        <div class="cart-line" data-key="{{ item.key }}">
+          <a href="{{ item.url }}">
+            {%- if item.image -%}
+              {{
+                item.image
+                | image_url: width: 160
+                | image_tag:
+                  class: 'cart-line-img',
+                  loading: 'lazy',
+                  alt: item.image.alt | default: item.title,
+                  width: 80,
+                  height: 96
+              }}
+            {%- endif -%}
+          </a>
+          <div class="cart-line-info">
+            <a class="cart-line-title" href="{{ item.url }}">{{ item.product.title }}</a>
+            {%- unless item.variant.title == 'Default Title' -%}
+              <span class="cart-line-variant">{{ item.variant.title }}</span>
+            {%- endunless -%}
+            <span class="cart-line-price">
+              {%- if item.original_line_price != item.final_line_price -%}
+                <s style="opacity:0.50;">{{ item.original_line_price | money }}</s>
+                {{ item.final_line_price | money }}
+              {%- else -%}
+                {{ item.final_line_price | money }}
+              {%- endif -%}
+            </span>
+            <div class="cart-line-actions">
+              <div class="cart-qty">
+                <button class="cart-qty-btn" data-change="-1" data-key="{{ item.key }}" aria-label="{{ 'cart.label.decrease_quantity' | t | default: 'Decrease quantity' }}">−</button>
+                <span class="cart-qty-val">{{ item.quantity }}</span>
+                <button class="cart-qty-btn" data-change="1" data-key="{{ item.key }}" aria-label="{{ 'cart.label.increase_quantity' | t | default: 'Increase quantity' }}">+</button>
+              </div>
+              <button class="cart-line-remove" data-key="{{ item.key }}" data-qty="0">
+                {{ 'cart.label.remove' | t | default: 'Remove' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  <!-- Footer -->
+  <div class="cart-drawer-foot">
+    <div class="cart-subtotal">
+      <span class="cart-subtotal-label">{{ 'cart.label.subtotal' | t | default: 'Subtotal' }}</span>
+      <span class="cart-subtotal-price" id="cartSubtotalPrice">{{ cart.total_price | money }}</span>
+    </div>
+    <a
+      href="{{ routes.checkout_url }}"
+      class="cart-checkout-btn"
+      id="cartCheckoutBtn"
+      {%- if cart.item_count == 0 %} aria-disabled="true" style="pointer-events:none;opacity:0.5;"{% endif %}
+    >
+      {{ 'cart.checkout' | t | default: 'Checkout Securely →' }}
+    </a>
+    <p class="cart-note">{{ 'cart.note' | t | default: 'Shipping, offers and taxes are finalized at checkout' }}</p>
+  </div>
+</div>

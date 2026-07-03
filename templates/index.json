@@ -1,0 +1,240 @@
+{
+  "sections": {
+    "hero-banner": {
+      "type": "hero-banner",
+      "settings": {
+        "eyebrow": "Crafted in France. Culminated in India.",
+        "heading": "<p>Worn once.<br>Never forgotten.</p>",
+        "subheading": "",
+        "cta_primary_label": "Explore the Collection",
+        "cta_primary_url": "/collections/all",
+        "cta_secondary_label": "Take the Scent Quiz",
+        "cta_secondary_url": "/pages/scent-finder",
+        "side_label": "Oils formulated by",
+        "side_value": "FRENCH perfumers"
+      }
+    },
+    "scents": {
+      "type": "scents",
+      "settings": {
+        "label": "The Collection",
+        "heading": "Find the one that wears like you.",
+        "quiz_label": "Need help choosing? Let the quiz match you",
+        "quiz_url": "/pages/scent-finder"
+      },
+      "blocks": {
+        "bequest": {
+          "type": "product_card",
+          "settings": {
+            "name": "Bequest",
+            "subtitle": "Citrus woody · Confident",
+            "badge": "Citrus · Woody",
+            "notes": "A crisp opening of bergamot and lemon moves into lavender, cashmere wood and a warm ambroxan trail.",
+            "price_text": "From ₹1,200 · 3ml to 100ml"
+          }
+        },
+        "dame": {
+          "type": "product_card",
+          "settings": {
+            "name": "Dame",
+            "subtitle": "Floral vanilla · Luminous",
+            "badge": "Floral · Vanilla",
+            "notes": "Peach, bergamot and soft florals settle into sandalwood, vanilla and white musk for an elegant finish.",
+            "price_text": "From ₹1,200 · 3ml to 100ml"
+          }
+        },
+        "velvet": {
+          "type": "product_card",
+          "settings": {
+            "name": "Velvet",
+            "subtitle": "Fresh green · Limited",
+            "badge": "Fresh · Green",
+            "notes": "A calm green composition with cardamom, lavender, moss, vetiver and tonka for effortless daily wear.",
+            "price_text": "₹2,800 · 50ml only",
+            "limited": true
+          }
+        }
+      },
+      "blocks_order": ["bequest", "dame", "velvet"]
+    },
+    "watch-and-buy": {
+      "type": "watch-and-buy",
+      "settings": {
+        "label": "Watch & Shop",
+        "heading": "See the mood. Shop the scent.",
+        "subheading": "Browse Chantèro moments in motion. Tap any reel to watch closer and continue straight to the fragrance page."
+      },
+      "blocks": {
+        "reel-1": { "type": "reel", "settings": { "video_filename": "1st.mp4", "poster_filename": "reel-poster-01.png", "label": "@chantero.in" } },
+        "reel-2": { "type": "reel", "settings": { "video_filename": "2nd.mp4", "poster_filename": "reel-poster-02.png", "label": "@chantero.in" } },
+        "reel-3": { "type": "reel", "settings": { "video_filename": "3rd.mp4", "poster_filename": "reel-poster-03.jpg", "label": "@chantero.in" } },
+        "reel-4": { "type": "reel", "settings": { "video_filename": "4th.mp4", "label": "@chantero.in" } },
+        "reel-5": { "type": "reel", "settings": { "video_filename": "5th.mp4", "label": "@chantero.in" } },
+        "reel-6": { "type": "reel", "settings": { "video_filename": "6th.mp4", "label": "@chantero.in" } },
+        "reel-7": { "type": "reel", "settings": { "video_filename": "7th.mp4", "label": "@chantero.in" } },
+        "reel-8": { "type": "reel", "settings": { "video_filename": "8th.mp4", "label": "@chantero.in" } },
+        "reel-9": { "type": "reel", "settings": { "video_filename": "9th.mp4", "label": "@chantero.in" } },
+        "reel-10": { "type": "reel", "settings": { "video_filename": "10th.mp4", "label": "@chantero.in" } },
+        "reel-11": { "type": "reel", "settings": { "video_filename": "11th.mp4", "label": "@chantero.in" } },
+        "reel-12": { "type": "reel", "settings": { "video_filename": "12th.mp4", "label": "@chantero.in" } },
+        "reel-13": { "type": "reel", "settings": { "video_filename": "13th.mp4", "label": "@chantero.in" } }
+      },
+      "blocks_order": ["reel-1","reel-2","reel-3","reel-4","reel-5","reel-6","reel-7","reel-8","reel-9","reel-10","reel-11","reel-12","reel-13"]
+    },
+    "byob": {
+      "type": "byob",
+      "settings": {
+        "label": "Bundle Atelier",
+        "heading": "Create a scent edit for every occasion.",
+        "body": "Pair a daily signature with an evening scent, add discovery vials, and unlock automatic savings when your selection includes two or more items.",
+        "cta_label": "Build My Bundle →",
+        "cta_url": "/pages/byob"
+      },
+      "blocks": {
+        "bequest": { "type": "product_card", "settings": { "name": "Bequest", "fallback_asset": "bequest-bottle.png", "price_text": "50ml · ₹2,200" } },
+        "dame":    { "type": "product_card", "settings": { "name": "Dame",    "fallback_asset": "dame-bottle.png",    "price_text": "50ml · ₹3,200" } },
+        "velvet":  { "type": "product_card", "settings": { "name": "Velvet",  "fallback_asset": "velvet-bottle.png",  "price_text": "50ml · ₹2,800" } },
+        "disc":    { "type": "product_card", "settings": { "name": "Discovery Set", "price_text": "3×3ml · ₹500" } }
+      },
+      "blocks_order": ["bequest","dame","velvet","disc"]
+    },
+    "discovery-sampler": {
+      "type": "discovery-sampler",
+      "settings": {
+        "label": "Discovery First",
+        "heading": "Wear it for a day. Then decide.",
+        "body": "Fragrance changes with skin, heat and time. Start with a 3ml vial, live with the scent, and move to a full bottle only when it feels right.",
+        "cta_primary_label": "Start with Samples",
+        "cta_primary_url": "/collections/all",
+        "cta_secondary_label": "Get Matched",
+        "cta_secondary_url": "/pages/scent-finder",
+        "price_badge": "₹200 · Per Sample · 3ml"
+      }
+    },
+    "gift-experience": {
+      "type": "gift-experience",
+      "settings": {
+        "label": "Gifting",
+        "heading": "A gift that feels chosen, not rushed.",
+        "note": "Add a note, choose wrapping and make the order feel personal.",
+        "bottom_cta_label": "Explore Gifting",
+        "bottom_cta_url": "/collections/gifts"
+      },
+      "blocks": {
+        "sig":  { "type": "gift_card", "settings": { "image_asset": "gift-box-standard.jpg", "subtitle": "Signature choice", "name": "Signature Gift Box",   "description": "A full-size Chantèro fragrance presented with refined packaging and space for a personal note.", "price_text": "From ₹3,200" } },
+        "duo":  { "type": "gift_card", "settings": { "image_asset": "gift-box-grande.png",   "subtitle": "For two",           "name": "The Duo",             "description": "Two complementary signatures in one elevated set. Ideal for celebrations, weddings and shared rituals.", "price_text": "From ₹5,800" } },
+        "disc": { "type": "gift_card", "settings": { "image_asset": "gift-box-petite.png",   "subtitle": "Safest gift",       "name": "Discovery Gift Set", "description": "A discovery set for the person who wants to experience each scent before selecting their bottle.", "price_text": "₹500" } }
+      },
+      "blocks_order": ["sig","duo","disc"]
+    },
+    "influencers": {
+      "type": "influencers",
+      "settings": {
+        "label": "Chantèro in the Wild",
+        "heading": "Real moments. Real rituals.",
+        "cta_label": "See more on Instagram",
+        "cta_url": "https://www.instagram.com/chantero.in"
+      },
+      "blocks": {
+        "c1": { "type": "photo", "settings": { "image_asset": "community-01.jpg", "handle": "@chantero.in" } },
+        "c2": { "type": "photo", "settings": { "image_asset": "community-02.jpg", "handle": "@chantero.in" } },
+        "c3": { "type": "photo", "settings": { "image_asset": "community-03.jpg", "handle": "@chantero.in" } },
+        "c4": { "type": "photo", "settings": { "image_asset": "community-04.jpg", "handle": "@chantero.in" } },
+        "c5": { "type": "photo", "settings": { "image_asset": "community-05.jpg", "handle": "@chantero.in" } }
+      },
+      "blocks_order": ["c1","c2","c3","c4","c5"]
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "label": "Customer Notes",
+        "heading": "What people notice first.",
+        "subheading": "Longevity, presentation and the feeling of finding a scent that finally feels personal.",
+        "show_aggregate": true,
+        "aggregate_score": "4.8",
+        "review_count": "Inspired by customer experiences"
+      },
+      "blocks": {
+        "r1": { "type": "review", "settings": { "name": "Aarav M.", "avatar_initial": "A", "date": "2 weeks ago", "stars": 5, "body": "Bequest has that clean, expensive opening I wanted. It settles warm, stays close enough for work and still gets noticed by evening." } },
+        "r2": { "type": "review", "settings": { "name": "Nisha R.", "avatar_initial": "N", "date": "1 month ago",  "stars": 5, "body": "Dame feels soft but not ordinary. The sample made the decision easy, and the full bottle looks beautiful on my dresser." } },
+        "r3": { "type": "review", "settings": { "name": "Kabir S.", "avatar_initial": "K", "date": "3 weeks ago", "stars": 5, "body": "The discovery set helped me compare properly. Velvet became the one I kept reaching for: fresh, calm and easy to wear." } }
+      },
+      "blocks_order": ["r1","r2","r3"]
+    },
+    "brand-philosophy": {
+      "type": "brand-philosophy",
+      "settings": {
+        "label": "Brand Note",
+        "heading": "Luxury fragrance without the distance.",
+        "image_caption": "Est. 2024 · Paris",
+        "cta_label": "Read the Atelier Story"
+      },
+      "blocks": {
+        "p1": { "type": "paragraph", "settings": { "text": "Chantèro was created for people who love fine fragrance but want to experience it on their own terms." } },
+        "p2": { "type": "paragraph", "settings": { "text": "We bring French formulation, considered packaging and discovery-first buying together so choosing your scent feels intimate, not intimidating." } },
+        "q1": { "type": "quote",     "settings": { "quote": "The right fragrance does not enter loudly. It stays, softens, and becomes part of how people remember you.", "attribution": "— The Founder, Chantèro" } }
+      },
+      "blocks_order": ["p1","p2","q1"]
+    },
+    "stores": {
+      "type": "stores",
+      "settings": {
+        "label": "Experience Counters",
+        "heading": "Smell it first. Choose it slowly.",
+        "subheading": "Visit a partner location to test Chantèro on skin and compare the dry-down before you buy."
+      },
+      "blocks": {
+        "mumbai": { "type": "store", "settings": { "city": "Mumbai", "name": "Palladium Experience Desk", "address": "Ground Floor, Palladium Mall\nSenapati Bapat Marg, Lower Parel, Mumbai 400013", "hours": "Mon–Sun · 11 AM to 8 PM", "cta_label": "Plan your visit" } },
+        "delhi":  { "type": "store", "settings": { "city": "Delhi NCR", "name": "DLF Avenue Fragrance Bar",  "address": "First Floor, DLF Avenue\nSaket District Centre, New Delhi 110017",              "hours": "Mon–Sun · 12 PM to 8 PM", "cta_label": "Plan your visit" } }
+      },
+      "blocks_order": ["mumbai","delhi"]
+    },
+    "quiz-teaser": {
+      "type": "quiz-teaser",
+      "settings": {
+        "label": "Scent Match",
+        "heading": "Let your routine choose your fragrance.",
+        "body": "Tell us where you wear scent, how bold you like it, and which notes pull you in. We will suggest the best Chantèro match.",
+        "cta_label": "Start the Match →",
+        "cta_url": "/pages/scent-finder"
+      },
+      "blocks": {
+        "img1": { "type": "image", "settings": { "image_asset": "bequest-2.png",       "label": "For Him" } },
+        "img2": { "type": "image", "settings": { "image_asset": "dame-2.png",           "label": "For Her" } },
+        "img3": { "type": "image", "settings": { "image_asset": "velvet-1.png",         "label": "Daily Ritual" } },
+        "img4": { "type": "image", "settings": { "image_asset": "scent-finder-card.jpg","label": "Evening Mood" } }
+      },
+      "blocks_order": ["img1","img2","img3","img4"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Private List",
+        "heading": "Be first to know what arrives next.",
+        "subheading": "Receive launch previews, private bundle privileges, scent education and early access to limited drops.",
+        "button_label": "Join the List →",
+        "fine_print": "Thoughtful updates only. Unsubscribe whenever you like."
+      },
+      "blocks": {
+        "p1": { "type": "perk", "settings": { "text": "Early access to new drops" } },
+        "p2": { "type": "perk", "settings": { "text": "Private bundle privileges" } },
+        "p3": { "type": "perk", "settings": { "text": "Scent education" } }
+      },
+      "blocks_order": ["p1","p2","p3"]
+    }
+  },
+  "order": [
+    "hero-banner",
+    "scents",
+    "watch-and-buy",
+    "byob",
+    "discovery-sampler",
+    "gift-experience",
+    "influencers",
+    "testimonials",
+    "brand-philosophy",
+    "stores",
+    "quiz-teaser",
+    "newsletter"
+  ]
+}

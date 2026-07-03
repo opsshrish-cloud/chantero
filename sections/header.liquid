@@ -1,0 +1,167 @@
+{%- liquid
+  assign main_menu = linklists[section.settings.main_menu]
+  assign sec_menu  = linklists[section.settings.secondary_menu]
+-%}
+
+<nav class="nav" aria-label="Primary navigation">
+  <!-- Left nav group -->
+  <div class="nav-group">
+    {%- for link in main_menu.links -%}
+      <a
+        class="nav-link{% if link.active %} active{% endif %}"
+        href="{{ link.url }}"
+        {%- if link.current %} aria-current="page"{% endif %}
+      >{{ link.title }}</a>
+    {%- endfor -%}
+  </div>
+
+  <!-- Centre logo -->
+  <a class="nav-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+    {%- if section.settings.logo != blank -%}
+      {{
+        section.settings.logo
+        | image_url: width: 320
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          class: 'nav-logo-img',
+          alt: shop.name,
+          width: 160,
+          height: 22
+      }}
+    {%- else -%}
+      <img
+        src="{{ 'logo-wordmark.svg' | asset_url }}"
+        alt="{{ shop.name }}"
+        class="nav-logo-img"
+        width="160"
+        height="22"
+        loading="eager"
+        fetchpriority="high"
+      />
+    {%- endif -%}
+  </a>
+
+  <!-- Right nav group -->
+  <div class="nav-group right">
+    {%- for link in sec_menu.links -%}
+      <a
+        class="nav-link{% if link.active %} active{% endif %}"
+        href="{{ link.url }}"
+        {%- if link.current %} aria-current="page"{% endif %}
+      >{{ link.title }}</a>
+    {%- endfor -%}
+
+    <!-- Cart -->
+    <button
+      class="cart-pill"
+      aria-label="{{ 'cart.general.title' | t }} ({{ cart.item_count }} {{ 'cart.general.item_count' | t: count: cart.item_count | default: 'items' }})"
+      data-open-cart
+    >
+      <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span class="cart-n" id="cartN" aria-live="polite">{{ cart.item_count }}</span>
+    </button>
+  </div>
+
+  <!-- Mobile hamburger -->
+  <button
+    class="nav-hamburger"
+    id="navHamburger"
+    aria-label="{{ 'general.accessibility.open_menu' | t | default: 'Open menu' }}"
+    aria-expanded="false"
+    aria-controls="mobMenu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="overlay-bg" id="mobOverlay" aria-hidden="true"></div>
+
+<!-- Mobile menu -->
+<div
+  class="mob-menu"
+  id="mobMenu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ 'general.accessibility.menu' | t | default: 'Menu' }}"
+  aria-hidden="true"
+>
+  <button class="mob-close" id="mobClose" aria-label="{{ 'general.accessibility.close_menu' | t | default: 'Close' }}">&#10005;</button>
+
+  <div class="mob-menu-logo">
+    {%- if section.settings.logo != blank -%}
+      {{
+        section.settings.logo
+        | image_url: width: 240
+        | image_tag:
+          loading: 'lazy',
+          class: 'mob-logo-img',
+          alt: shop.name,
+          width: 120,
+          height: 17
+      }}
+    {%- else -%}
+      <img
+        src="{{ 'logo-wordmark.svg' | asset_url }}"
+        alt="{{ shop.name }}"
+        class="mob-logo-img"
+        width="120"
+        height="17"
+        loading="lazy"
+        style="filter:brightness(0) invert(1);opacity:0.90;"
+      />
+    {%- endif -%}
+  </div>
+
+  <nav class="mob-nav" aria-label="{{ 'general.accessibility.nav_menu' | t | default: 'Navigation' }}">
+    {%- for link in main_menu.links -%}
+      <a class="mob-nav-link" href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+    {%- for link in sec_menu.links -%}
+      <a class="mob-nav-link" href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+    <a class="mob-nav-link" href="{{ routes.cart_url }}">{{ 'cart.general.title' | t }}</a>
+  </nav>
+
+  <div class="mob-nav-footer">
+    {%- if settings.instagram_url != blank -%}
+      <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+    {%- endif -%}
+    {%- if settings.email != blank -%}
+      <a href="mailto:{{ settings.email }}">{{ settings.email }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "site-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Primary navigation (left)",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "Secondary navigation (right)"
+    }
+  ]
+}
+{% endschema %}

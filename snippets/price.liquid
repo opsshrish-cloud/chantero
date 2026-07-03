@@ -1,0 +1,26 @@
+{%- comment -%}
+  Renders a product price with optional compare-at price.
+  Usage: {% render 'price', product: product %}
+         {% render 'price', product: product, price_class: 'cs-price' %}
+{%- endcomment -%}
+
+{%- liquid
+  if use_variant
+    assign target = product.selected_or_first_available_variant
+  elsif variant
+    assign target = variant
+  else
+    assign target = product
+  endif
+  assign price_class = price_class | default: 'cs-price'
+-%}
+
+<div class="{{ price_class }}">
+  {%- if target.compare_at_price > target.price -%}
+    <span class="visually-hidden">Sale price</span>
+    <span>{{ target.price | money }}</span>
+    <s class="{{ price_class }}-compare">{{ target.compare_at_price | money }}</s>
+  {%- else -%}
+    <span>{{ target.price | money }}</span>
+  {%- endif -%}
+</div>

@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "settings": {
+        "collection_label": "Signature Collection",
+        "origin_label": "Formulated in Grasse, France",
+        "default_type_line": "Parfum · 24% Perfume Oil · Formulated in Grasse, France",
+        "price_note": "From · Incl. all taxes",
+        "shipping_content": "<ul><li>Complimentary shipping on orders above ₹4,999</li><li>Standard delivery: 3–5 business days across India</li><li>Express delivery: 1–2 days (available at checkout)</li><li>All orders include a complimentary 2ml discovery sampler</li><li>Shipped in signature Chantèro protective packaging</li></ul>",
+        "returns_content": "<ul><li>7-day hassle-free returns on sealed / unopened products</li><li>Opened bottles are not eligible for return</li><li>Exchange for a different size within 14 days</li><li>Contact us: hello@chantero.in or WhatsApp</li></ul>",
+        "cs_eyebrow": "Pair It With",
+        "cs_heading_plain": "Complete the",
+        "cs_heading_italic": "Experience",
+        "ymal_count": 4
+      },
+      "blocks": {}
+    }
+  },
+  "order": ["main-product"]
+}

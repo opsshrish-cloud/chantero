@@ -1,0 +1,207 @@
+<section class="scents" id="fragrances" aria-labelledby="scentsHeading">
+  <div class="wrap">
+    <div class="scents-head r">
+      <div>
+        <span class="section-label"><span class="rule"></span>{{ section.settings.label | default: 'The Collection' }}</span>
+        <h2 class="display-lg" id="scentsHeading">{{ section.settings.heading | default: 'Find the one<br>that wears like you.' }}</h2>
+      </div>
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn-text" href="{{ section.settings.cta_url | default: routes.collections_url }}">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="scents-grid wrap">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'product_card' -%}
+        {%- liquid
+          assign prod = all_products[block.settings.product]
+          assign delay_class = 'd' | append: forloop.index0
+        -%}
+        <article class="scent-card r {{ delay_class }}" {{ block.shopify_attributes }}>
+          <div class="scent-card-img-wrap">
+            {%- if prod != blank and prod.featured_image -%}
+              {{
+                prod.featured_image
+                | image_url: width: 600
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'scent-card-img',
+                  alt: prod.featured_image.alt | default: prod.title,
+                  width: 600,
+                  height: 800
+              }}
+            {%- elsif block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 600
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'scent-card-img',
+                  alt: block.settings.name,
+                  width: 600,
+                  height: 800
+              }}
+            {%- else -%}
+              <img
+                src="{{ 'bequest-bottle.png' | asset_url }}"
+                alt="{{ block.settings.name }}"
+                class="scent-card-img"
+                loading="lazy"
+                width="600"
+                height="800"
+              />
+            {%- endif -%}
+            {%- if block.settings.badge != blank -%}
+              <div class="scent-card-badge">
+                <span class="badge">{{ block.settings.badge }}</span>
+              </div>
+            {%- endif -%}
+            {%- if block.settings.limited -%}
+              <span class="scent-limited" style="position:absolute;top:16px;right:16px;font-family:var(--sans);font-size:8.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);background:var(--cream);padding:4px 10px;border:1px solid var(--border);">Limited Edition</span>
+            {%- endif -%}
+          </div>
+
+          <div class="scent-card-body">
+            <span class="scent-card-label">{{ block.settings.subtitle }}</span>
+            <h3 class="scent-card-name">
+              {%- if prod != blank -%}{{ prod.title }}{%- else -%}{{ block.settings.name }}{%- endif -%}
+            </h3>
+            <p class="scent-card-desc">{{ block.settings.notes }}</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;flex-wrap:wrap;">
+              <span class="scent-card-price">
+                {%- if prod != blank -%}
+                  From {{ prod.price_min | money }}
+                {%- else -%}
+                  {{ block.settings.price_text }}
+                {%- endif -%}
+              </span>
+              {%- if prod != blank -%}
+                <a class="btn btn-outline" href="{{ prod.url }}">View {{ prod.title }} →</a>
+              {%- elsif block.settings.link != blank -%}
+                <a class="btn btn-outline" href="{{ block.settings.link }}">View {{ block.settings.name }} →</a>
+              {%- endif -%}
+            </div>
+          </div>
+        </article>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.quiz_label != blank -%}
+    <div class="wrap r" style="text-align:center;margin-top:40px;">
+      <a class="btn-text" href="{{ section.settings.quiz_url | default: '#' }}">{{ section.settings.quiz_label }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Signature Scents",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "The Collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find the one that wears like you."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Header CTA label"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Header CTA link"
+    },
+    {
+      "type": "text",
+      "id": "quiz_label",
+      "label": "Bottom quiz link label",
+      "default": "Need help choosing? Let the quiz match you"
+    },
+    {
+      "type": "url",
+      "id": "quiz_url",
+      "label": "Quiz link URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Scent card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Fallback image (if no product selected)"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name (fallback)",
+          "default": "Bequest"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / character",
+          "default": "Citrus woody · Confident"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Note badge",
+          "default": "Citrus · Woody"
+        },
+        {
+          "type": "textarea",
+          "id": "notes",
+          "label": "Scent description",
+          "default": "A crisp opening moves into warm cashmere and an ambroxan trail."
+        },
+        {
+          "type": "text",
+          "id": "price_text",
+          "label": "Price text (fallback)",
+          "default": "From ₹1,200 · 3ml to 100ml"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (if no product selected)"
+        },
+        {
+          "type": "checkbox",
+          "id": "limited",
+          "label": "Show Limited Edition badge",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Signature Scents",
+      "blocks": [
+        { "type": "product_card", "settings": { "name": "Bequest", "subtitle": "Citrus woody · Confident", "badge": "Citrus · Woody", "notes": "A crisp opening of bergamot and lemon moves into lavender, cashmere wood and a warm ambroxan trail.", "price_text": "From ₹1,200 · 3ml to 100ml" } },
+        { "type": "product_card", "settings": { "name": "Dame", "subtitle": "Floral vanilla · Luminous", "badge": "Floral · Vanilla", "notes": "Peach, bergamot and soft florals settle into sandalwood, vanilla and white musk for an elegant finish.", "price_text": "From ₹1,200 · 3ml to 100ml" } },
+        { "type": "product_card", "settings": { "name": "Velvet", "subtitle": "Fresh green · Limited", "badge": "Fresh · Green", "notes": "A calm green composition with cardamom, lavender, moss, vetiver and tonka for effortless daily wear.", "price_text": "₹2,800 · 50ml only", "limited": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

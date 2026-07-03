@@ -1,0 +1,177 @@
+{% comment %} Google-style customer reviews section {% endcomment %}
+<section class="reviews" id="reviews" aria-labelledby="reviewsHeading">
+  <div class="reviews-inner">
+    <div class="reviews-head r">
+      <div>
+        <span class="section-label"><span class="rule"></span>{{ section.settings.label | default: 'Customer Notes' }}</span>
+        <h2 class="display-md" id="reviewsHeading">{{ section.settings.heading | default: 'What people notice first.' }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="body-md" style="max-width:560px;margin-top:14px;">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+
+      <!-- Google aggregate score -->
+      {%- if section.settings.show_aggregate -%}
+        <div class="reviews-aggregate">
+          <div class="reviews-score">{{ section.settings.aggregate_score | default: '4.8' }}</div>
+          <div class="reviews-stars-wrap">
+            <div class="stars" aria-label="{{ section.settings.aggregate_score | default: '4.8' }} out of 5 stars">
+              {%- for i in (1..5) -%}
+                <svg class="star" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 17.3l-6.2 3.7 1.6-7.1L2 9.1l7.2-.6L12 2l2.8 6.5 7.2.6-5.4 4.8 1.6 7.1z"/>
+                </svg>
+              {%- endfor -%}
+            </div>
+            <span class="reviews-count">{{ section.settings.review_count | default: 'Inspired by customer experiences' }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="reviews-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'review' -%}
+          {%- assign delay = 'd' | append: forloop.index0 -%}
+          <article class="review-card r {{ delay }}" {{ block.shopify_attributes }}>
+            <div class="review-card-head">
+              {%- if block.settings.avatar_initial != blank -%}
+                <div class="review-avatar-init" aria-hidden="true">{{ block.settings.avatar_initial | upcase | truncate: 1, '' }}</div>
+              {%- else -%}
+                <div class="review-avatar-init" aria-hidden="true">{{ block.settings.name | truncate: 1, '' | upcase }}</div>
+              {%- endif -%}
+              <div class="review-meta">
+                <div class="review-name">{{ block.settings.name }}</div>
+                <div class="review-date">{{ block.settings.date }}</div>
+              </div>
+              <!-- Google G icon -->
+              <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+                <path fill="#4285F4" d="M44.5 20H24v8h11.8C34.2 33.9 29.6 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-.1-2.7-.2-4z"/>
+                <path fill="#34A853" d="M6.3 14.7l6.6 4.8C14.5 15.1 18.9 12 24 12c3.1 0 5.9 1.1 8.1 2.9l5.7-5.7C34.6 6.1 29.6 4 24 4c-7.7 0-14.4 4.4-17.7 10.7z"/>
+                <path fill="#FBBC05" d="M24 44c5.5 0 10.5-1.9 14.3-5l-6.6-5.4C29.6 35.3 26.9 36 24 36c-5.6 0-10.2-3.1-11.8-7.5L5.5 33.7C8.8 39.8 15.9 44 24 44z"/>
+                <path fill="#EA4335" d="M44.5 20H24v8h11.8c-.8 2.4-2.3 4.5-4.3 5.9l6.6 5.4C42.4 35.6 45 30.2 45 24c0-1.3-.1-2.7-.5-4z"/>
+              </svg>
+            </div>
+            <div class="stars" aria-label="{{ block.settings.stars | default: 5 }} stars">
+              {%- for i in (1..5) -%}
+                <svg class="star" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 17.3l-6.2 3.7 1.6-7.1L2 9.1l7.2-.6L12 2l2.8 6.5 7.2.6-5.4 4.8 1.6 7.1z"/>
+                </svg>
+              {%- endfor -%}
+            </div>
+            <p class="review-text">{{ block.settings.body }}</p>
+            <div style="margin-top:12px;">
+              <span class="body-sm">Posted on Google</span>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.google_link != blank -%}
+      <div class="r" style="text-align:center;margin-top:32px;">
+        <a class="btn-text" href="{{ section.settings.google_link }}" target="_blank" rel="noopener">View customer feedback</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer Reviews",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Customer Notes"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What people notice first."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Longevity, presentation and the feeling of finding a scent that finally feels personal."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_aggregate",
+      "label": "Show aggregate score",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "aggregate_score",
+      "label": "Aggregate score",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count label",
+      "default": "Inspired by customer experiences"
+    },
+    {
+      "type": "url",
+      "id": "google_link",
+      "label": "Google Reviews link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer name",
+          "default": "Aarav M."
+        },
+        {
+          "type": "text",
+          "id": "avatar_initial",
+          "label": "Avatar initial",
+          "default": "A"
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "2 weeks ago"
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review text",
+          "default": "Bequest has that clean, expensive opening I wanted. It settles warm, stays close enough for work and still gets noticed by evening."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Reviews",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Aarav M.", "avatar_initial": "A", "date": "2 weeks ago", "stars": 5, "body": "Bequest has that clean, expensive opening I wanted. It settles warm, stays close enough for work and still gets noticed by evening." } },
+        { "type": "review", "settings": { "name": "Nisha R.", "avatar_initial": "N", "date": "1 month ago", "stars": 5, "body": "Dame feels soft but not ordinary. The sample made the decision easy, and the full bottle looks beautiful on my dresser." } },
+        { "type": "review", "settings": { "name": "Kabir S.", "avatar_initial": "K", "date": "3 weeks ago", "stars": 5, "body": "The discovery set helped me compare properly. Velvet became the one I kept reaching for: fresh, calm and easy to wear." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,325 @@
+<section class="two-worlds" id="fragrances">
+
+  <!-- BEQUEST -->
+  <div class="world world-bequest">
+    {%- if section.settings.bequest_bg_image != blank -%}
+      {{
+        section.settings.bequest_bg_image
+        | image_url: width: 1000
+        | image_tag:
+          loading: 'lazy',
+          class: 'world-img',
+          alt: section.settings.bequest_bg_image.alt | escape | default: 'Bequest by Chantèro',
+          widths: '600, 900, 1200'
+      }}
+    {%- endif -%}
+    <div class="world-veil-bequest"></div>
+    <span class="world-tag r">{{ section.settings.bequest_gender }}</span>
+    {%- if section.settings.bequest_bottle_image != blank -%}
+      {{
+        section.settings.bequest_bottle_image
+        | image_url: width: 600
+        | image_tag:
+          loading: 'lazy',
+          class: 'world-float-img',
+          alt: 'Bequest bottle',
+          widths: '300, 500, 700'
+      }}
+    {%- endif -%}
+    <div class="world-content r">
+      <div class="world-label-wrap">
+        <span class="world-number">I.</span>
+        <span class="label">{{ section.settings.bequest_label }}</span>
+      </div>
+      <h2 class="world-title">{{ section.settings.bequest_title }}</h2>
+      <p class="world-subtitle">{{ section.settings.bequest_subtitle }}</p>
+      <p class="world-desc">{{ section.settings.bequest_quote }}</p>
+
+      <div class="world-notes r d1">
+        <div class="note-row">
+          <span class="note-tier">Top</span>
+          <span class="note-vals">{{ section.settings.bequest_notes_top }}</span>
+        </div>
+        <div class="note-row">
+          <span class="note-tier">Heart</span>
+          <span class="note-vals">{{ section.settings.bequest_notes_heart }}</span>
+        </div>
+        <div class="note-row">
+          <span class="note-tier">Base</span>
+          <span class="note-vals">{{ section.settings.bequest_notes_base }}</span>
+        </div>
+      </div>
+
+      <div class="world-footer r d2">
+        {%- if section.settings.bequest_product != blank -%}
+          {%- assign bequest = all_products[section.settings.bequest_product] -%}
+          <div class="world-price">
+            {{ bequest.price_min | money }}
+            <span>from · {{ section.settings.bequest_size_range }}</span>
+          </div>
+          <a href="{{ bequest.url }}" class="btn-text">Shop {{ bequest.title }}</a>
+        {%- else -%}
+          <div class="world-price">
+            {{ section.settings.bequest_price_text }}
+          </div>
+          {%- if section.settings.bequest_url != blank -%}
+            <a href="{{ section.settings.bequest_url }}" class="btn-text">Shop Bequest</a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="world-divider"></div>
+
+  <!-- DAME -->
+  <div class="world world-dame">
+    {%- if section.settings.dame_bg_image != blank -%}
+      {{
+        section.settings.dame_bg_image
+        | image_url: width: 1000
+        | image_tag:
+          loading: 'lazy',
+          class: 'world-img',
+          alt: section.settings.dame_bg_image.alt | escape | default: 'Dame by Chantèro',
+          widths: '600, 900, 1200'
+      }}
+    {%- endif -%}
+    <div class="world-veil-dame"></div>
+    <span class="world-tag r">{{ section.settings.dame_gender }}</span>
+    {%- if section.settings.dame_bottle_image != blank -%}
+      {{
+        section.settings.dame_bottle_image
+        | image_url: width: 600
+        | image_tag:
+          loading: 'lazy',
+          class: 'world-float-img',
+          alt: 'Dame bottle',
+          widths: '300, 500, 700'
+      }}
+    {%- endif -%}
+    <div class="world-content r">
+      <div class="world-label-wrap">
+        <span class="world-number">II.</span>
+        <span class="label">{{ section.settings.dame_label }}</span>
+      </div>
+      <h2 class="world-title">{{ section.settings.dame_title }}</h2>
+      <p class="world-subtitle">{{ section.settings.dame_subtitle }}</p>
+      <p class="world-desc">{{ section.settings.dame_quote }}</p>
+
+      <div class="world-notes r d1">
+        <div class="note-row">
+          <span class="note-tier">Top</span>
+          <span class="note-vals">{{ section.settings.dame_notes_top }}</span>
+        </div>
+        <div class="note-row">
+          <span class="note-tier">Heart</span>
+          <span class="note-vals">{{ section.settings.dame_notes_heart }}</span>
+        </div>
+        <div class="note-row">
+          <span class="note-tier">Base</span>
+          <span class="note-vals">{{ section.settings.dame_notes_base }}</span>
+        </div>
+      </div>
+
+      <div class="world-footer r d2">
+        {%- if section.settings.dame_product != blank -%}
+          {%- assign dame = all_products[section.settings.dame_product] -%}
+          <div class="world-price">
+            {{ dame.price_min | money }}
+            <span>from · {{ section.settings.dame_size_range }}</span>
+          </div>
+          <a href="{{ dame.url }}" class="btn-text">Shop {{ dame.title }}</a>
+        {%- else -%}
+          <div class="world-price">{{ section.settings.dame_price_text }}</div>
+          {%- if section.settings.dame_url != blank -%}
+            <a href="{{ section.settings.dame_url }}" class="btn-text">Shop Dame</a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Two Worlds",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bequest"
+    },
+    {
+      "type": "product",
+      "id": "bequest_product",
+      "label": "Bequest product (for live price)"
+    },
+    {
+      "type": "url",
+      "id": "bequest_url",
+      "label": "Bequest URL (fallback if no product selected)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bequest_bg_image",
+      "label": "Bequest background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bequest_bottle_image",
+      "label": "Bequest bottle image"
+    },
+    {
+      "type": "text",
+      "id": "bequest_gender",
+      "label": "Gender tag",
+      "default": "Masculine"
+    },
+    {
+      "type": "text",
+      "id": "bequest_label",
+      "label": "Label",
+      "default": "Bequest"
+    },
+    {
+      "type": "text",
+      "id": "bequest_title",
+      "label": "Title",
+      "default": "Bequest"
+    },
+    {
+      "type": "text",
+      "id": "bequest_subtitle",
+      "label": "Subtitle",
+      "default": "The Masculine Fragrance"
+    },
+    {
+      "type": "text",
+      "id": "bequest_quote",
+      "label": "Quote",
+      "default": "\"The scent of a man who owns the room before he speaks.\""
+    },
+    {
+      "type": "text",
+      "id": "bequest_notes_top",
+      "label": "Top notes",
+      "default": "Bergamot · Lemon · Pink Pepper"
+    },
+    {
+      "type": "text",
+      "id": "bequest_notes_heart",
+      "label": "Heart notes",
+      "default": "Lavender · Magnolia · Cashmere Wood"
+    },
+    {
+      "type": "text",
+      "id": "bequest_notes_base",
+      "label": "Base notes",
+      "default": "Ambroxan · Vetiver · Patchouli"
+    },
+    {
+      "type": "text",
+      "id": "bequest_price_text",
+      "label": "Price text (if no product selected)",
+      "default": "from ₹3,200"
+    },
+    {
+      "type": "text",
+      "id": "bequest_size_range",
+      "label": "Size range label",
+      "default": "15ml–100ml"
+    },
+    {
+      "type": "header",
+      "content": "Dame"
+    },
+    {
+      "type": "product",
+      "id": "dame_product",
+      "label": "Dame product (for live price)"
+    },
+    {
+      "type": "url",
+      "id": "dame_url",
+      "label": "Dame URL (fallback if no product selected)"
+    },
+    {
+      "type": "image_picker",
+      "id": "dame_bg_image",
+      "label": "Dame background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "dame_bottle_image",
+      "label": "Dame bottle image"
+    },
+    {
+      "type": "text",
+      "id": "dame_gender",
+      "label": "Gender tag",
+      "default": "Feminine"
+    },
+    {
+      "type": "text",
+      "id": "dame_label",
+      "label": "Label",
+      "default": "Dame"
+    },
+    {
+      "type": "text",
+      "id": "dame_title",
+      "label": "Title",
+      "default": "Dame"
+    },
+    {
+      "type": "text",
+      "id": "dame_subtitle",
+      "label": "Subtitle",
+      "default": "The Feminine Fragrance"
+    },
+    {
+      "type": "text",
+      "id": "dame_quote",
+      "label": "Quote",
+      "default": "\"A fragrance that arrives before she does, and lingers long after she leaves.\""
+    },
+    {
+      "type": "text",
+      "id": "dame_notes_top",
+      "label": "Top notes",
+      "default": "Bergamot · Rose Wood · Peach"
+    },
+    {
+      "type": "text",
+      "id": "dame_notes_heart",
+      "label": "Heart notes",
+      "default": "Rose · Iris · Jasmine · Plum"
+    },
+    {
+      "type": "text",
+      "id": "dame_notes_base",
+      "label": "Base notes",
+      "default": "Sandalwood · Vanilla · Musk · Tonka"
+    },
+    {
+      "type": "text",
+      "id": "dame_price_text",
+      "label": "Price text (if no product selected)",
+      "default": "from ₹3,200"
+    },
+    {
+      "type": "text",
+      "id": "dame_size_range",
+      "label": "Size range label",
+      "default": "15ml–100ml"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Worlds"
+    }
+  ]
+}
+{% endschema %}

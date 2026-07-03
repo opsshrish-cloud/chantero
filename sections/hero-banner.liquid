@@ -1,0 +1,215 @@
+<section class="hero" aria-label="{{ section.settings.aria_label | default: 'Hero' }}">
+
+  <!-- Background media: desktop video / mobile video / fallback image -->
+  <div class="hero-bg" aria-hidden="true">
+    {%- if section.settings.fallback_image != blank -%}
+      {{
+        section.settings.fallback_image
+        | image_url: width: 2000
+        | image_tag:
+          class: 'hero-bg-img',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: ''
+      }}
+    {%- else -%}
+      <img
+        src="{{ 'hero-bg-desktop.png' | asset_url }}"
+        alt=""
+        class="hero-bg-img"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        width="2000"
+        height="1125"
+      />
+    {%- endif -%}
+
+    <!-- Desktop video -->
+    {%- if section.settings.video_desktop != blank -%}
+      <video
+        class="hero-bg-video"
+        autoplay muted loop playsinline webkit-playsinline
+        preload="auto"
+        poster="{% if section.settings.fallback_image != blank %}{{ section.settings.fallback_image | image_url: width: 2000 }}{% else %}{{ 'hero-bg-desktop.png' | asset_url }}{% endif %}"
+      >
+        <source src="{{ section.settings.video_desktop }}" type="video/mp4" />
+      </video>
+    {%- else -%}
+      <video
+        class="hero-bg-video"
+        autoplay muted loop playsinline webkit-playsinline
+        preload="auto"
+        poster="{{ 'hero-bg-desktop.png' | asset_url }}"
+        id="heroVideoDesktop"
+      >
+        <source src="{{ 'hero-desktop.mp4' | asset_url }}" type="video/mp4" />
+      </video>
+    {%- endif -%}
+
+    <!-- Mobile video (hidden on desktop, shown on mobile via responsive.css) -->
+    {%- if section.settings.video_mobile != blank -%}
+      <video
+        class="hero-bg-video hero-bg-video--mobile"
+        autoplay muted loop playsinline webkit-playsinline
+        preload="auto"
+        id="heroVideoMobile"
+      >
+        <source src="{{ section.settings.video_mobile }}" type="video/mp4" />
+      </video>
+    {%- else -%}
+      <video
+        class="hero-bg-video hero-bg-video--mobile"
+        autoplay muted loop playsinline webkit-playsinline
+        preload="auto"
+        id="heroVideoMobile"
+      >
+        <source src="{{ 'hero-mobile.mp4' | asset_url }}" type="video/mp4" />
+        <source src="{{ 'hero-mobile.webm' | asset_url }}" type="video/webm" />
+      </video>
+    {%- endif -%}
+  </div>
+
+  <div class="hero-veil" aria-hidden="true"></div>
+
+  <div class="hero-content wrap">
+    <div class="hero-left">
+
+      <div class="hero-eyebrow r">
+        <span class="rule" style="background:var(--gold);"></span>
+        <span class="hero-eyebrow-text">{{ section.settings.eyebrow | default: 'Crafted in France. Culminated in India.' }}</span>
+      </div>
+
+      <h1 class="hero-h1 display-xl r d1">
+        {{ section.settings.heading | default: 'Worn once.<br>Never forgotten.' }}
+      </h1>
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="hero-sub r d2">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      <div class="hero-ctas r d3">
+        {%- if section.settings.cta_primary_label != blank -%}
+          <a
+            class="btn btn-gold"
+            href="{{ section.settings.cta_primary_url | default: routes.collections_url }}"
+          >{{ section.settings.cta_primary_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.cta_secondary_label != blank -%}
+          <a
+            class="btn btn-outline-cream"
+            href="{{ section.settings.cta_secondary_url | default: pages['scent-finder'].url }}"
+          >{{ section.settings.cta_secondary_label }}</a>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    <div class="hero-right r d2" aria-hidden="true">
+      {%- if section.settings.side_label != blank -%}
+        <p class="hero-craft" style="font-family:var(--sans);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.52);margin-bottom:8px;">{{ section.settings.side_label }}</p>
+      {%- endif -%}
+      {%- if section.settings.side_value != blank -%}
+        <div class="hero-stat" style="font-family:var(--serif);font-size:clamp(18px,2.4vw,28px);letter-spacing:0.12em;color:rgba(255,255,255,0.80);text-transform:uppercase;">{{ section.settings.side_value }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "tag": "section",
+  "class": "hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Crafted in France. Culminated in India."
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Worn once.<br>Never forgotten.</p>"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary button label",
+      "default": "Explore the Collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary button label",
+      "default": "Take the Scent Quiz"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "text",
+      "id": "side_label",
+      "label": "Side stat label",
+      "default": "Oils formulated by"
+    },
+    {
+      "type": "text",
+      "id": "side_value",
+      "label": "Side stat value",
+      "default": "FRENCH perfumers"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Fallback image (desktop)"
+    },
+    {
+      "type": "video_url",
+      "id": "video_desktop",
+      "label": "Desktop video URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "Leave blank to use the theme default hero video asset."
+    },
+    {
+      "type": "video_url",
+      "id": "video_mobile",
+      "label": "Mobile video URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "Leave blank to use the theme default mobile hero video asset."
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Accessibility label",
+      "default": "Hero"
+    }
+  ],
+  "presets": [
+    { "name": "Hero banner" }
+  ]
+}
+{% endschema %}

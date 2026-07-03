@@ -1,0 +1,140 @@
+{% comment %} Brand Story / Philosophy section (matching client build .story layout) {% endcomment %}
+<section class="story" id="story" aria-labelledby="storyHeading">
+  <div class="story-inner wrap">
+
+    <div class="story-img-wrap r">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 800
+          | image_tag:
+            class: 'story-img',
+            loading: 'lazy',
+            alt: section.settings.image.alt | default: 'Chantèro founder',
+            width: 800,
+            height: 1000
+        }}
+      {%- else -%}
+        <img
+          src="{{ 'creator-editorial-04.jpg' | asset_url }}"
+          alt="Chantèro founder"
+          class="story-img"
+          loading="lazy"
+          width="800"
+          height="1000"
+        />
+      {%- endif -%}
+      {%- if section.settings.image_caption != blank -%}
+        <div class="story-img-accent" style="position:absolute;bottom:20px;left:20px;font-family:var(--sans);font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,0.60);background:rgba(32,24,18,0.52);padding:6px 12px;backdrop-filter:blur(4px);">{{ section.settings.image_caption }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="story-text-wrap r d1">
+      <span class="section-label"><span class="rule"></span>{{ section.settings.label | default: 'Brand Note' }}</span>
+      <h2 class="display-md story-title" id="storyHeading" style="margin-top:20px;margin-bottom:20px;">{{ section.settings.heading | default: 'Luxury fragrance without the distance.' }}</h2>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'paragraph' -%}
+          <p class="story-body">{{ block.settings.text }}</p>
+        {%- elsif block.type == 'quote' -%}
+          <blockquote style="border-left:2px solid var(--gold);margin:24px 0;padding:0 0 0 20px;">
+            <p class="story-quote">{{ block.settings.quote }}</p>
+            {%- if block.settings.attribution != blank -%}
+              <cite class="story-sig">{{ block.settings.attribution }}</cite>
+            {%- endif -%}
+          </blockquote>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn btn-outline" style="display:inline-flex;margin-top:24px;" href="{{ section.settings.cta_url | default: '#' }}">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Story",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Brand Note"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Luxury fragrance without the distance."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Story image"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image caption",
+      "default": "Est. 2024 · Paris"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA button label",
+      "default": "Read the Atelier Story"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Chantèro was created for people who love fine fragrance but want to experience it on their own terms."
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "The right fragrance does not enter loudly. It stays, softens, and becomes part of how people remember you."
+        },
+        {
+          "type": "text",
+          "id": "attribution",
+          "label": "Attribution",
+          "default": "— The Founder, Chantèro"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Story",
+      "blocks": [
+        { "type": "paragraph", "settings": { "text": "Chantèro was created for people who love fine fragrance but want to experience it on their own terms." } },
+        { "type": "paragraph", "settings": { "text": "We bring French formulation, considered packaging and discovery-first buying together so choosing your scent feels intimate, not intimidating." } },
+        { "type": "quote", "settings": { "quote": "The right fragrance does not enter loudly. It stays, softens, and becomes part of how people remember you.", "attribution": "— The Founder, Chantèro" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

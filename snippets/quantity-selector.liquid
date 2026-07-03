@@ -1,0 +1,25 @@
+<div class="qty">
+  <button
+    class="qty-btn"
+    type="button"
+    data-qty-minus
+    aria-label="{{ 'products.decrease_quantity' | t }}"
+  >−</button>
+  <div class="qty-n">
+    <input
+      type="number"
+      name="quantity"
+      value="1"
+      min="1"
+      max="99"
+      data-qty-input
+      aria-label="{{ 'products.quantity' | t }}"
+    />
+  </div>
+  <button
+    class="qty-btn"
+    type="button"
+    data-qty-plus
+    aria-label="{{ 'products.increase_quantity' | t }}"
+  >+</button>
+</div>

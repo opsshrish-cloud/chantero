@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>{{ page_title }}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}</title>
+  <meta name="description" content="{{ page_description | escape }}" />
+  <link rel="canonical" href="{{ canonical_url }}" />
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="{{ shop.name }}" />
+  <meta property="og:type" content="{% if template == 'product' %}product{% elsif template == 'collection' %}website{% else %}website{% endif %}" />
+  <meta property="og:title" content="{{ page_title | escape }}" />
+  <meta property="og:description" content="{{ page_description | escape }}" />
+  <meta property="og:url" content="{{ canonical_url }}" />
+  {% if page_image %}
+    <meta property="og:image" content="{{ page_image | image_url: width: 1200 }}" />
+    <meta property="og:image:width" content="{{ page_image.width }}" />
+    <meta property="og:image:height" content="{{ page_image.height }}" />
+  {% elsif settings.share_image %}
+    <meta property="og:image" content="{{ settings.share_image | image_url: width: 1200 }}" />
+  {% endif %}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ page_title | escape }}" />
+  <meta name="twitter:description" content="{{ page_description | escape }}" />
+  {% if page_image %}
+    <meta name="twitter:image" content="{{ page_image | image_url: width: 1200 }}" />
+  {% endif %}
+
+  <!-- Shopify required -->
+  {{ content_for_header }}
+
+  <!-- Custom fonts -->
+  <style>
+    @font-face {
+      font-family: 'Americana';
+      src: url('{{ "Americana Regular.ttf" | asset_url }}') format('truetype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Americana';
+      src: url('{{ "AmericanaStd-Bold.ttf" | asset_url }}') format('truetype');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'URW Form';
+      src: url('{{ "URWForm-Regular.woff2" | asset_url }}') format('woff2'),
+           url('{{ "URWForm-Regular.woff" | asset_url }}') format('woff');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'URW Form';
+      src: url('{{ "URWForm-Medium.woff2" | asset_url }}') format('woff2'),
+           url('{{ "URWForm-Medium.woff" | asset_url }}') format('woff');
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'URW Form';
+      src: url('{{ "URWForm-Demi.woff2" | asset_url }}') format('woff2'),
+           url('{{ "URWForm-Demi.woff" | asset_url }}') format('woff');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+  </style>
+
+  <!-- Theme CSS -->
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'components.css' | asset_url | stylesheet_tag }}
+  {%- if template.name == 'index' or request.page_type == 'index' -%}
+    {{ 'homepage.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+  {% if template == 'product' or template.name == 'product' %}
+    {{ 'product.css' | asset_url | stylesheet_tag }}
+  {% endif %}
+  {{ 'responsive.css' | asset_url | stylesheet_tag }}
+
+  <!-- Favicon -->
+  {% if settings.favicon %}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" />
+  {% endif %}
+</head>
+
+<body>
+  <!-- Skip to content (accessibility) -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Cart drawer -->
+  {%- render 'cart-drawer' -%}
+
+  <!-- cart-drawer-overlay is rendered inside cart-drawer.liquid -->
+
+  <!-- Header -->
+  {% sections 'header-group' %}
+
+  <!-- Main content -->
+  <main id="main" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  <!-- Footer -->
+  {% sections 'footer-group' %}
+
+  <!-- Global JS -->
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+  {% if template == 'product' or template.name == 'product' %}
+    <script src="{{ 'product.js' | asset_url }}" defer></script>
+  {% endif %}
+
+  <script src="{{ 'cart.js' | asset_url }}" defer></script>
+</body>
+</html>

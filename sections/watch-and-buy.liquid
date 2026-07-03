@@ -1,0 +1,206 @@
+<section class="watch-buy" aria-labelledby="watchBuyHeading">
+
+  <div class="watch-buy-head">
+    <div class="watch-buy-copy">
+      <span class="section-label r" style="color:var(--gold);"><span class="rule"></span>{{ section.settings.label | default: 'Watch & Shop' }}</span>
+      <h2 class="display-lg r d1" id="watchBuyHeading" style="color:#fff;">{{ section.settings.heading | default: 'See the mood. Shop the scent.' }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="r d2" style="font-family:var(--sans);font-size:13px;font-weight:300;color:rgba(255,255,255,0.60);line-height:1.8;margin-top:16px;max-width:480px;">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+    <div class="reel-slider-controls">
+      <button class="reel-arrow" data-dir="prev" aria-label="Previous reels">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="reel-arrow" data-dir="next" aria-label="Next reels">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="reel-gallery">
+    <div class="reel-slider" aria-label="{{ 'sections.watch_and_buy.gallery_label' | t | default: 'Chantèro shoppable reels' }}">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'reel' -%}
+          {%- liquid
+            assign vid_src = block.settings.video_asset | append: '' | strip
+            if vid_src == blank
+              assign vid_src = block.settings.video_filename | append: '' | strip
+              if vid_src != blank
+                assign vid_src = vid_src | asset_url
+              endif
+            endif
+          -%}
+          <div
+            class="reel-tile"
+            data-video-src="{{ vid_src }}"
+            {{ block.shopify_attributes }}
+            role="button"
+            tabindex="0"
+            aria-label="Play reel {{ forloop.index }}"
+          >
+            {%- if block.settings.poster != blank -%}
+              {{
+                block.settings.poster
+                | image_url: width: 400
+                | image_tag:
+                  class: 'reel-tile-poster',
+                  loading: 'lazy',
+                  alt: block.settings.title | default: ''
+              }}
+            {%- elsif block.settings.poster_filename != blank -%}
+              <img
+                src="{{ block.settings.poster_filename | asset_url }}"
+                alt="{{ block.settings.title | default: '' }}"
+                class="reel-tile-poster"
+                loading="lazy"
+                width="400"
+                height="711"
+              />
+            {%- endif -%}
+            {%- if vid_src != blank -%}
+              <video class="reel-tile-vid" muted loop playsinline preload="none" aria-hidden="true">
+                <source src="{{ vid_src }}" type="video/mp4" />
+              </video>
+            {%- endif -%}
+            <div class="reel-tile-overlay"></div>
+            <div class="reel-play-btn" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+            </div>
+            {%- if block.settings.product != blank -%}
+              {%- assign reel_product = all_products[block.settings.product] -%}
+              <div class="reel-tile-info">
+                {%- if reel_product != blank -%}
+                  <div class="reel-tile-label">{{ block.settings.label | default: 'Shop this scent' }}</div>
+                  <div class="reel-tile-name">{{ reel_product.title }}</div>
+                  <div class="reel-tile-price">{{ reel_product.price_min | money }}</div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Fallback: show default reel assets if no blocks configured {%- endcomment -%}
+      {%- if section.blocks.size == 0 -%}
+        {%- assign default_reels = '1st,2nd,3rd,4th,5th,6th,7th,8th,9th,10th,11th,12th,13th' | split: ',' -%}
+        {%- for reel_name in default_reels -%}
+          {%- assign reel_file = reel_name | append: '.mp4' -%}
+          <div
+            class="reel-tile"
+            data-video-src="{{ reel_file | asset_url }}"
+            role="button"
+            tabindex="0"
+            aria-label="Play Chantèro reel {{ forloop.index }}"
+          >
+            <video class="reel-tile-vid" muted loop playsinline preload="none" aria-hidden="true">
+              <source src="{{ reel_file | asset_url }}" type="video/mp4" />
+            </video>
+            <div class="reel-tile-overlay"></div>
+            <div class="reel-play-btn" aria-hidden="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/></svg>
+            </div>
+            <div class="reel-tile-info">
+              <div class="reel-tile-label">@chantero.in</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+<!-- Reel lightbox -->
+<div class="reel-lightbox" id="reelLightbox" aria-hidden="true" role="dialog" aria-label="{{ 'sections.watch_and_buy.lightbox_label' | t | default: 'Watch reel' }}">
+  <div class="reel-lb-inner">
+    <button class="reel-lb-close" aria-label="{{ 'accessibility.close' | t | default: 'Close' }}">&#10005;</button>
+    <video class="reel-lb-vid" id="reelLbVid" controls autoplay playsinline></video>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Watch & Buy",
+  "tag": "section",
+  "class": "watch-buy-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Watch & Shop"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "See the mood. Shop the scent."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Browse Chantèro moments in motion. Tap any reel to watch closer."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reel",
+      "name": "Reel",
+      "settings": [
+        {
+          "type": "text",
+          "id": "video_filename",
+          "label": "Video filename in theme assets",
+          "info": "e.g. 1st.mp4 — must be uploaded to theme assets",
+          "placeholder": "1st.mp4"
+        },
+        {
+          "type": "video_url",
+          "id": "video_asset",
+          "label": "Video URL (overrides filename)",
+          "accept": ["youtube", "vimeo"]
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Poster image"
+        },
+        {
+          "type": "text",
+          "id": "poster_filename",
+          "label": "Poster filename in theme assets",
+          "placeholder": "reel-poster-01.png"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Featured product"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Product label",
+          "default": "Shop this scent"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Reel title (for accessibility)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Watch & Buy",
+      "blocks": [
+        { "type": "reel", "settings": { "video_filename": "1st.mp4", "poster_filename": "reel-poster-01.png", "label": "@chantero.in" } },
+        { "type": "reel", "settings": { "video_filename": "2nd.mp4", "poster_filename": "reel-poster-02.png", "label": "@chantero.in" } },
+        { "type": "reel", "settings": { "video_filename": "3rd.mp4", "poster_filename": "reel-poster-03.jpg", "label": "@chantero.in" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

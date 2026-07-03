@@ -1,0 +1,73 @@
+<div class="brand-strip" data-drag-scroll>
+  {%- for i in (1..3) -%}
+    {%- liquid
+      assign img_id    = 'col' | append: i | append: '_image'
+      assign label_id  = 'col' | append: i | append: '_label'
+      assign img       = section.settings[img_id]
+      assign lbl       = section.settings[label_id]
+    -%}
+    <div class="strip-col">
+      {%- if img != blank -%}
+        {{
+          img
+          | image_url: width: 800
+          | image_tag:
+            loading: 'lazy',
+            alt: img.alt | escape | default: lbl,
+            widths: '480, 700, 900'
+        }}
+      {%- endif -%}
+      <div class="strip-veil"></div>
+      {%- if lbl != blank -%}
+        <span class="strip-col-label">{{ lbl }}</span>
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Campaign Strip",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "col1_image",
+      "label": "Column 1 image"
+    },
+    {
+      "type": "text",
+      "id": "col1_label",
+      "label": "Column 1 label",
+      "default": "L'Atelier Chantèro"
+    },
+    {
+      "type": "image_picker",
+      "id": "col2_image",
+      "label": "Column 2 image"
+    },
+    {
+      "type": "text",
+      "id": "col2_label",
+      "label": "Column 2 label",
+      "default": "Grasse · France"
+    },
+    {
+      "type": "image_picker",
+      "id": "col3_image",
+      "label": "Column 3 image"
+    },
+    {
+      "type": "text",
+      "id": "col3_label",
+      "label": "Column 3 label",
+      "default": "The World of Chantèro"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Campaign Strip"
+    }
+  ]
+}
+{% endschema %}

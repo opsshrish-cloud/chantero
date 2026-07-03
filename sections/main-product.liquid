@@ -1,0 +1,728 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+
+  assign mf = product.metafields.custom
+  assign subtitle        = mf.product_subtitle
+  assign concentration   = mf.concentration
+  assign story_title     = mf.story_title
+  assign story_body      = mf.story_body
+  assign story_image     = mf.story_image.value
+  assign scent_top       = mf.scent_top
+  assign scent_heart     = mf.scent_heart
+  assign scent_base      = mf.scent_base
+  assign accord_desc     = mf.accord_description
+  assign longevity       = mf.longevity
+  assign sillage         = mf.sillage
+  assign season          = mf.season
+  assign ingredients     = mf.ingredients
+  assign review_count    = mf.review_count
+  assign review_avg      = mf.review_avg
+  assign ritual_1_title  = mf.ritual_1_title
+  assign ritual_1_body   = mf.ritual_1_body
+  assign ritual_2_title  = mf.ritual_2_title
+  assign ritual_2_body   = mf.ritual_2_body
+  assign ritual_3_title  = mf.ritual_3_title
+  assign ritual_3_body   = mf.ritual_3_body
+  assign ritual_4_title  = mf.ritual_4_title
+  assign ritual_4_body   = mf.ritual_4_body
+
+  assign all_notes = ''
+  if scent_top != blank
+    assign all_notes = scent_top
+  endif
+  if scent_heart != blank
+    if all_notes != blank
+      assign all_notes = all_notes | append: ', ' | append: scent_heart
+    else
+      assign all_notes = scent_heart
+    endif
+  endif
+  if scent_base != blank
+    if all_notes != blank
+      assign all_notes = all_notes | append: ', ' | append: scent_base
+    else
+      assign all_notes = scent_base
+    endif
+  endif
+  assign notes_arr = all_notes | split: ','
+-%}
+
+<!-- Breadcrumb -->
+<nav class="pd-breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ routes.root_url }}">Home</a>
+  <span aria-hidden="true">·</span>
+  {%- if collection -%}
+    <a href="{{ collection.url }}">{{ collection.title }}</a>
+    <span aria-hidden="true">·</span>
+  {%- endif -%}
+  <span aria-current="page">{{ product.title }}</span>
+</nav>
+
+<!-- ── PRODUCT UPPER ─────────────────── -->
+<div class="product-wrap">
+
+  {%- render 'product-media-gallery', product: product -%}
+
+  <div class="pd">
+    <p class="pd-collection r">{{ product.vendor }} · {{ section.settings.collection_label }}</p>
+
+    <h1 class="pd-name r d1">{{ product.title }}</h1>
+
+    {%- if subtitle != blank or concentration != blank -%}
+      <p class="pd-type r d1">
+        {%- if subtitle != blank -%}{{ subtitle }}{%- endif -%}
+        {%- if concentration != blank -%} · {{ concentration }}{%- endif -%}
+        {%- if section.settings.origin_label != blank -%} · {{ section.settings.origin_label }}{%- endif -%}
+      </p>
+    {%- else -%}
+      <p class="pd-type r d1">{{ section.settings.default_type_line }}</p>
+    {%- endif -%}
+
+    <!-- Rating -->
+    {%- if review_count != blank and review_avg != blank -%}
+      <div class="pd-rating r d2">
+        <span class="pd-stars" aria-label="{{ review_avg }} stars">★★★★★</span>
+        <a class="pd-rev" href="#reviews">{{ review_count }} reviews</a>
+      </div>
+    {%- endif -%}
+
+    <!-- Price -->
+    <div class="pd-price-row r d2">
+      <div>
+        <div class="pd-price" id="pdPrice">{{ current_variant.price | money }}</div>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <div class="pd-price-compare" id="pdCompare">{{ current_variant.compare_at_price | money }}</div>
+        {%- endif -%}
+        <div class="pd-price-note">{{ section.settings.price_note }}</div>
+      </div>
+      {%- if concentration != blank -%}
+        <span class="pd-conc">{{ concentration | split: ' ' | first }}</span>
+      {%- endif -%}
+    </div>
+
+    <!-- Variant / size picker -->
+    <div class="r d3">
+      {%- render 'variant-picker', product: product -%}
+    </div>
+
+    <!-- Scent notes chips -->
+    {%- if all_notes != blank -%}
+      <div class="r d3">
+        <div class="pd-sec-label" style="margin-bottom:10px;">Scent Notes</div>
+        <div class="notes-chips">
+          {%- for note in notes_arr -%}
+            {%- assign n = note | strip -%}
+            {%- if n != blank -%}
+              <span class="note-chip">{{ n }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <!-- ATC + Buy Now + Wishlist -->
+    <div class="r d4">
+      {%- render 'product-buy-buttons', product: product -%}
+    </div>
+
+    <!-- Trust badges -->
+    <div class="trust-row r d4">
+      <div class="trust-item">
+        <span class="trust-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </span>
+        <span class="trust-lbl">100% Authentic<br/>Guaranteed</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </span>
+        <span class="trust-lbl">Complimentary<br/>2ml Sampler</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 .49-3.1"/>
+          </svg>
+        </span>
+        <span class="trust-lbl">7-Day Easy<br/>Returns</span>
+      </div>
+    </div>
+
+    <!-- Accordions -->
+    <div class="accordions r d5">
+
+      <!-- Description -->
+      <div class="accord open" data-accord>
+        <button class="accord-head" aria-expanded="true" aria-controls="acc-desc">
+          <span class="accord-label">About {{ product.title }}</span>
+          <span class="accord-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </span>
+        </button>
+        <div class="accord-body" id="acc-desc">
+          <div class="accord-inner">
+            {{ product.description }}
+            {%- if longevity != blank or sillage != blank or season != blank -%}
+              <br/>
+              {%- if longevity != blank -%}<p><strong>Longevity:</strong> {{ longevity }}</p>{%- endif -%}
+              {%- if sillage != blank -%}<p><strong>Sillage:</strong> {{ sillage }}</p>{%- endif -%}
+              {%- if season != blank -%}<p><strong>Season:</strong> {{ season }}</p>{%- endif -%}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping -->
+      <div class="accord" data-accord>
+        <button class="accord-head" aria-expanded="false" aria-controls="acc-ship">
+          <span class="accord-label">Shipping &amp; Delivery</span>
+          <span class="accord-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </span>
+        </button>
+        <div class="accord-body" id="acc-ship" hidden>
+          <div class="accord-inner">
+            {{ section.settings.shipping_content }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Returns -->
+      <div class="accord" data-accord>
+        <button class="accord-head" aria-expanded="false" aria-controls="acc-ret">
+          <span class="accord-label">Returns &amp; Exchange</span>
+          <span class="accord-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </span>
+        </button>
+        <div class="accord-body" id="acc-ret" hidden>
+          <div class="accord-inner">
+            {{ section.settings.returns_content }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Ingredients -->
+      {%- if ingredients != blank -%}
+        <div class="accord" data-accord>
+          <button class="accord-head" aria-expanded="false" aria-controls="acc-ing">
+            <span class="accord-label">Full Ingredients</span>
+            <span class="accord-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </span>
+          </button>
+          <div class="accord-body" id="acc-ing" hidden>
+            <div class="accord-inner">
+              <p style="font-size:11.5px;letter-spacing:0.02em;color:var(--muted);line-height:1.9;">{{ ingredients }}</p>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div><!-- /pd -->
+
+</div><!-- /product-wrap -->
+
+<!-- Mobile sticky ATC -->
+<div class="sticky-atc" id="stickyAtc" aria-hidden="true">
+  <div class="sticky-atc-inner">
+    <div>
+      <div class="sticky-atc-name">{{ product.title }}</div>
+      <div class="sticky-atc-price" id="stickyPrice">{{ current_variant.price | money }}</div>
+    </div>
+    <button
+      class="btn-full sticky-atc-btn"
+      data-sticky-atc
+      {%- unless current_variant.available -%}disabled{%- endunless -%}
+    >
+      {%- if current_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+    </button>
+  </div>
+</div>
+
+<!-- ── SCENT STORY ─────────────────── -->
+{%- if story_title != blank or story_body != blank -%}
+<section class="scent-story">
+  {%- if story_image != blank -%}
+    <div class="ss-bg" style="background-image:url('{{ story_image | image_url: width: 1920 }}');"></div>
+  {%- else -%}
+    <div class="ss-bg"></div>
+  {%- endif -%}
+  <div class="ss-veil"></div>
+
+  <div class="ss-content">
+    <div class="ss-left">
+      <span class="label r">The Story</span>
+      {%- if story_title != blank -%}
+        <h2 class="ss-title r d1">{{ story_title }}</h2>
+      {%- endif -%}
+      {%- if story_body != blank -%}
+        <p class="ss-body r d2">{{ story_body }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="ss-right r d2">
+      {%- if scent_top != blank -%}
+        <div class="ss-row">
+          <span class="ss-tier-label">Top Notes</span>
+          <div class="ss-pills">
+            {%- assign top_arr = scent_top | split: ',' -%}
+            {%- for note in top_arr -%}
+              <span class="ss-pill">{{ note | strip }}</span>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if scent_heart != blank -%}
+        <div class="ss-row">
+          <span class="ss-tier-label">Heart Notes</span>
+          <div class="ss-pills">
+            {%- assign heart_arr = scent_heart | split: ',' -%}
+            {%- for note in heart_arr -%}
+              <span class="ss-pill">{{ note | strip }}</span>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if scent_base != blank -%}
+        <div class="ss-row">
+          <span class="ss-tier-label">Base Notes</span>
+          <div class="ss-pills">
+            {%- assign base_arr = scent_base | split: ',' -%}
+            {%- for note in base_arr -%}
+              <span class="ss-pill">{{ note | strip }}</span>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ── FRAGRANCE PYRAMID ─────────────────── -->
+{%- if scent_top != blank or scent_heart != blank or scent_base != blank -%}
+<section class="pyramid-sec">
+  <div class="wrap">
+    <div class="pyramid-grid">
+
+      <div class="pyr-left">
+        <span class="label r">The Composition</span>
+        <h2 class="pyr-heading r d1">
+          Fragrance<br/><em class="italic" style="color:var(--gold-pale);">Pyramid</em>
+        </h2>
+        {%- if accord_desc != blank -%}
+          <p class="pyr-desc r d2">{{ accord_desc }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="pyramid r d1">
+        {%- if scent_top != blank -%}
+          <div class="pyr-tier">
+            <div class="pyr-block">
+              <div class="pyr-lbl">Top Notes</div>
+              <div class="pyr-notes">{{ scent_top }}</div>
+              <div class="pyr-time">First 30 minutes</div>
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if scent_heart != blank -%}
+          <div class="pyr-tier">
+            <div class="pyr-block">
+              <div class="pyr-lbl">Heart Notes</div>
+              <div class="pyr-notes">{{ scent_heart }}</div>
+              <div class="pyr-time">30 min — 4 hours</div>
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if scent_base != blank -%}
+          <div class="pyr-tier">
+            <div class="pyr-block">
+              <div class="pyr-lbl">Base Notes</div>
+              <div class="pyr-notes">{{ scent_base }}</div>
+              <div class="pyr-time">4 hours — 14+ hours</div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ── THE RITUAL ─────────────────── -->
+{%- if ritual_1_title != blank -%}
+<section class="ritual-sec">
+  <div class="wrap">
+    <div class="ritual-head">
+      <span class="label r">Application Guide</span>
+      <h2 class="ritual-title r d1">The <span style="color:var(--gold-pale);">Ritual</span></h2>
+    </div>
+
+    <div class="ritual-grid">
+      {%- assign ritual_pairs = 'ritual_1,ritual_2,ritual_3,ritual_4' | split: ',' -%}
+      {%- for step in ritual_pairs -%}
+        {%- if step == 'ritual_1' -%}
+          {%- assign s_title = ritual_1_title -%}
+          {%- assign s_body  = ritual_1_body -%}
+        {%- elsif step == 'ritual_2' -%}
+          {%- assign s_title = ritual_2_title -%}
+          {%- assign s_body  = ritual_2_body -%}
+        {%- elsif step == 'ritual_3' -%}
+          {%- assign s_title = ritual_3_title -%}
+          {%- assign s_body  = ritual_3_body -%}
+        {%- elsif step == 'ritual_4' -%}
+          {%- assign s_title = ritual_4_title -%}
+          {%- assign s_body  = ritual_4_body -%}
+        {%- endif -%}
+        {%- if s_title != blank -%}
+          {%- assign delay_cls = 'd' | append: forloop.index0 -%}
+          {%- if forloop.index < 10 -%}
+            {%- assign s_num = '0' | append: forloop.index -%}
+          {%- else -%}
+            {%- assign s_num = forloop.index -%}
+          {%- endif -%}
+          <div class="ritual-step r {{ delay_cls }}">
+            <span class="step-bg-num">{{ s_num }}</span>
+            <h3 class="step-name">{{ s_title }}</h3>
+            {%- if s_body != blank -%}
+              <p class="step-desc">{{ s_body }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ── CROSS-SELL ─────────────────── -->
+{%- liquid
+  assign cs_products = ''
+  for i in (1..4)
+    assign pkey = 'cs_product_' | append: i
+    assign pid  = section.settings[pkey]
+    if pid != blank
+      assign cs_products = cs_products | append: pid | append: ','
+    endif
+  endfor
+  assign cs_arr = cs_products | split: ','
+-%}
+{%- if cs_arr.size > 0 and cs_products != blank -%}
+<section class="cross-sell">
+  <div class="wrap">
+    <div class="cs-head">
+      <div class="cs-head-left r">
+        <span class="label">{{ section.settings.cs_eyebrow }}</span>
+        <h2 class="cs-heading">
+          {{ section.settings.cs_heading_plain }}<br/>
+          <em class="italic" style="color:var(--gold-pale);">{{ section.settings.cs_heading_italic }}</em>
+        </h2>
+      </div>
+    </div>
+
+    <div class="cs-grid">
+      {%- for pid in cs_arr -%}
+        {%- assign pid = pid | strip -%}
+        {%- if pid != blank -%}
+          {%- assign cs_p = all_products[pid] -%}
+          {%- assign cs_class = 'cs-card r d' | append: forloop.index0 -%}
+          {%- if cs_p != blank -%}
+            {%- render 'product-card',
+              card_product: cs_p,
+              card_class: cs_class,
+              img_class: 'cs-img',
+              wrap_class: 'cs-img-wrap'
+            -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ── REVIEWS ─────────────────── -->
+{%- if section.blocks.size > 0 or review_count != blank -%}
+<section class="reviews-sec" id="reviews">
+  <div class="wrap">
+
+    <div class="reviews-header">
+      <div class="rh-l">
+        <span class="label r">Client Voices</span>
+        <h2 class="rh-l-title r d1">
+          What they're<br/><em class="italic" style="color:var(--gold-pale);">saying</em>
+        </h2>
+      </div>
+
+      {%- if review_avg != blank -%}
+        <div class="r d1">
+          <div class="rh-r-avg">{{ review_avg }}</div>
+          <div class="rh-stars" aria-label="{{ review_avg }} out of 5 stars">★★★★★</div>
+          {%- if review_count != blank -%}
+            <div class="rh-count">Based on {{ review_count }} reviews</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="reviews-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            {%- assign delay = 'd' | append: forloop.index0 -%}
+            <div class="rev-card r {{ delay }}" {{ block.shopify_attributes }}>
+              <div>
+                <div class="rev-top">
+                  <span class="rev-stars" aria-label="5 stars">★★★★★</span>
+                  <span class="rev-date">{{ block.settings.date }}</span>
+                </div>
+                <p class="rev-txt">"{{ block.settings.quote }}"</p>
+              </div>
+              <div class="rev-author">
+                <div class="rev-av" aria-hidden="true">{{ block.settings.name | slice: 0 }}</div>
+                <div>
+                  <div class="rev-name">{{ block.settings.name }}</div>
+                  <div class="rev-det">{{ block.settings.detail }}</div>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ── YOU MAY ALSO LOVE ─────────────────── -->
+{%- if section.settings.ymal_collection != blank -%}
+  {%- assign ymal_col = collections[section.settings.ymal_collection] -%}
+  {%- if ymal_col.products_count > 0 -%}
+    <section class="ymal">
+      <div class="wrap">
+        <div class="ymal-head">
+          <span class="label r">Curated for You</span>
+          <h2 class="ymal-title r d1">
+            You May Also <em class="italic" style="color:var(--gold-pale);">Love</em>
+          </h2>
+        </div>
+
+        <div class="ymal-grid">
+          {%- assign ymal_limit = section.settings.ymal_count | default: 4 -%}
+          {%- assign ymal_shown = 0 -%}
+          {%- for p in ymal_col.products -%}
+            {%- if p.id != product.id and ymal_shown < ymal_limit -%}
+              {%- assign delay = 'd' | append: ymal_shown -%}
+              <a class="ymal-card r {{ delay }}" href="{{ p.url }}">
+                <div class="ymal-img-wrap">
+                  {%- if p.featured_image -%}
+                    {{
+                      p.featured_image
+                      | image_url: width: 600
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'ymal-img',
+                        alt: p.featured_image.alt | escape | default: p.title,
+                        widths: '300, 500, 700'
+                    }}
+                  {%- endif -%}
+                </div>
+                <div class="ymal-info">
+                  {%- if p.vendor != blank -%}
+                    <p class="ymal-tag">{{ p.vendor }}</p>
+                  {%- endif -%}
+                  <h3 class="ymal-name">{{ p.title }}</h3>
+                  {%- if p.metafields.custom.scent_top != blank -%}
+                    <p class="ymal-notes">{{ p.metafields.custom.scent_top }}</p>
+                  {%- elsif p.description != blank -%}
+                    <p class="ymal-notes">{{ p.description | strip_html | truncate: 80 }}</p>
+                  {%- endif -%}
+                  <div class="ymal-price">{{ p.price_min | money }}</div>
+                </div>
+              </a>
+              {%- assign ymal_shown = ymal_shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Main Product",
+  "tag": "div",
+  "class": "main-product-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product details"
+    },
+    {
+      "type": "text",
+      "id": "collection_label",
+      "label": "Collection label",
+      "default": "Signature Collection"
+    },
+    {
+      "type": "text",
+      "id": "origin_label",
+      "label": "Origin label",
+      "default": "Formulated in Grasse, France"
+    },
+    {
+      "type": "text",
+      "id": "default_type_line",
+      "label": "Default type line (fallback if no metafields)",
+      "default": "Parfum · 24% Perfume Oil · Formulated in Grasse, France"
+    },
+    {
+      "type": "text",
+      "id": "price_note",
+      "label": "Price note",
+      "default": "From · Incl. all taxes"
+    },
+    {
+      "type": "header",
+      "content": "Accordion content"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_content",
+      "label": "Shipping & Delivery content",
+      "default": "<ul><li>Complimentary shipping on orders above ₹4,999</li><li>Standard delivery: 3–5 business days across India</li><li>Express delivery: 1–2 days (available at checkout)</li><li>All orders include a complimentary 2ml discovery sampler</li></ul>"
+    },
+    {
+      "type": "richtext",
+      "id": "returns_content",
+      "label": "Returns & Exchange content",
+      "default": "<ul><li>7-day hassle-free returns on sealed / unopened products</li><li>Opened bottles are not eligible for return</li><li>Exchange for a different size within 14 days</li><li>Contact us: hello@chantero.in or WhatsApp</li></ul>"
+    },
+    {
+      "type": "header",
+      "content": "Cross-sell"
+    },
+    {
+      "type": "text",
+      "id": "cs_eyebrow",
+      "label": "Cross-sell eyebrow",
+      "default": "Pair It With"
+    },
+    {
+      "type": "text",
+      "id": "cs_heading_plain",
+      "label": "Cross-sell heading (plain)",
+      "default": "Complete the"
+    },
+    {
+      "type": "text",
+      "id": "cs_heading_italic",
+      "label": "Cross-sell heading (italic gold)",
+      "default": "Experience"
+    },
+    {
+      "type": "product",
+      "id": "cs_product_1",
+      "label": "Cross-sell product 1"
+    },
+    {
+      "type": "product",
+      "id": "cs_product_2",
+      "label": "Cross-sell product 2"
+    },
+    {
+      "type": "product",
+      "id": "cs_product_3",
+      "label": "Cross-sell product 3"
+    },
+    {
+      "type": "product",
+      "id": "cs_product_4",
+      "label": "Cross-sell product 4"
+    },
+    {
+      "type": "header",
+      "content": "You May Also Love"
+    },
+    {
+      "type": "collection",
+      "id": "ymal_collection",
+      "label": "YMAL collection"
+    },
+    {
+      "type": "range",
+      "id": "ymal_count",
+      "label": "Number of YMAL products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review text (without quotation marks)",
+          "default": "An extraordinary fragrance."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer name",
+          "default": "Reviewer Name"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Location / product detail",
+          "default": "Mumbai · Verified · 100ml"
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Review date",
+          "default": "June 2026"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Main Product"
+    }
+  ]
+}
+{% endschema %}

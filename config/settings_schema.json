@@ -1,0 +1,84 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Chantèro",
+    "theme_version": "1.0.0",
+    "theme_author": "Chantero",
+    "theme_documentation_url": "https://chantero.in",
+    "theme_support_url": "https://chantero.in"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo (light / dark bg)",
+        "info": "Used on hero and dark areas. Recommended: white wordmark PNG, 400px wide."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_symbol",
+        "label": "Logo symbol / icon",
+        "info": "Used in footer. Recommended: white symbol PNG, 100px."
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Social share image",
+        "info": "Used for Open Graph and Twitter Card. Recommended: 1200×630px."
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32×32px PNG"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number",
+        "info": "Include country code, no spaces. Example: 919876543210",
+        "default": "919999999999"
+      },
+      {
+        "type": "text",
+        "id": "instagram_url",
+        "label": "Instagram URL",
+        "default": "https://instagram.com/chantero.in"
+      },
+      {
+        "type": "text",
+        "id": "email",
+        "label": "Contact email",
+        "default": "hello@chantero.in"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Font information"
+      },
+      {
+        "type": "paragraph",
+        "content": "This theme uses Tenor Sans (display) and Josefin Sans (body), loaded from Google Fonts. These are set in the theme code and cannot be changed here."
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Color information"
+      },
+      {
+        "type": "paragraph",
+        "content": "Colors are defined in CSS custom properties in base.css. The Light Parchment Luxury palette is: cream background #F7EFE2, espresso ink #1F1812, amber gold #8A642D, dark footer #5B3D21."
+      }
+    ]
+  }
+]

@@ -1,0 +1,123 @@
+{
+  "general": {
+    "loading": "Loading…",
+    "skip_to_content": "Skip to content",
+    "search": {
+      "title": "Search",
+      "placeholder": "Search fragrances…",
+      "submit": "Search",
+      "no_results": "No results for \"{{ terms }}\".",
+      "results_count": {
+        "one": "{{ count }} result for \"{{ terms }}\"",
+        "other": "{{ count }} results for \"{{ terms }}\""
+      }
+    },
+    "accessibility": {
+      "open_menu": "Open menu",
+      "close_menu": "Close menu",
+      "close": "Close",
+      "menu": "Menu",
+      "nav_menu": "Navigation",
+      "social_media": "Social media"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "navigation": {
+    "open_menu": "Open menu",
+    "close_menu": "Close"
+  },
+  "accessibility": {
+    "close": "Close",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu"
+  },
+  "products": {
+    "add_to_cart": "Add to Cart",
+    "adding_to_cart": "Adding…",
+    "buy_now": "Buy Now",
+    "sold_out": "Sold Out",
+    "unavailable": "Unavailable",
+    "sale": "Sale",
+    "from": "From",
+    "select_size": "Select size",
+    "quantity": "Quantity",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "wishlist": "Save to Wishlist",
+    "reviews": "reviews"
+  },
+  "cart": {
+    "general": {
+      "title": "Your Cart",
+      "empty": "Your cart is empty",
+      "continue_browsing": "Continue Shopping",
+      "continue_shopping_link_html": "Continue Shopping",
+      "subtotal": "Subtotal",
+      "taxes_included_and_shipping_policy_html": "Shipping and taxes calculated at checkout.",
+      "checkout": "Checkout",
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
+    },
+    "item_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
+    "label": {
+      "subtotal": "Subtotal",
+      "remove": "Remove",
+      "decrease_quantity": "Decrease quantity",
+      "increase_quantity": "Increase quantity"
+    },
+    "empty": {
+      "title": "Your cart is empty",
+      "subtitle": "Choose a scent, sample first, or build a gift.",
+      "cta": "Explore Collection"
+    },
+    "threshold": {
+      "reached": "You qualify for complimentary shipping"
+    },
+    "checkout": "Checkout Securely →",
+    "note": "Shipping, offers and taxes are finalized at checkout"
+  },
+  "collections": {
+    "general": {
+      "no_matches": "No products found."
+    },
+    "title": "Collection",
+    "all_products": "All products",
+    "sort_by": "Sort by",
+    "no_results": "No products found."
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search fragrances…",
+    "no_results": "No results for \"{{ query }}\"."
+  },
+  "newsletter": {
+    "success": "You're on the list. We'll be in touch."
+  },
+  "sections": {
+    "announcement_bar": {
+      "label": "Announcements"
+    },
+    "newsletter": {
+      "join_label": "Join Privé",
+      "email_placeholder": "Your email address",
+      "disclaimer": "By subscribing you agree to receive marketing communications from Chantèro."
+    },
+    "watch_and_buy": {
+      "gallery_label": "Chantèro shoppable reels",
+      "lightbox_label": "Watch reel"
+    }
+  },
+  "errors": {
+    "add_to_cart": "Sorry, something went wrong. Please try again.",
+    "cart_error": "There was an error updating your cart."
+  }
+}

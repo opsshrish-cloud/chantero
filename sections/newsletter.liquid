@@ -1,0 +1,127 @@
+<section class="prive" id="prive" aria-labelledby="priveHeading">
+  <div class="prive-inner">
+
+    <div class="prive-eyebrow r" aria-hidden="true">
+      <span class="prive-eyebrow-line"></span>
+      <span class="prive-eyebrow-text">{{ section.settings.eyebrow | default: 'Private List' }}</span>
+      <span class="prive-eyebrow-line"></span>
+    </div>
+
+    <h2 class="prive-title r d1" id="priveHeading">{{ section.settings.heading | default: 'Be first to know what arrives next.' }}</h2>
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="prive-sub r d2">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- form 'customer', class: 'prive-form r d3' -%}
+      {%- if form.posted_successfully? -%}
+        <p style="color:var(--gold);font-family:var(--sans);font-size:11px;letter-spacing:0.14em;text-align:center;width:100%;padding:20px 0;">
+          {{ 'newsletter.success' | t | default: "You're on the list. We'll be in touch." }}
+        </p>
+      {%- else -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,prive" />
+        <input
+          class="prive-input"
+          type="email"
+          name="contact[email]"
+          id="priveEmail"
+          placeholder="{{ section.settings.placeholder | default: 'Email address' }}"
+          required
+          autocomplete="email"
+          aria-label="{{ section.settings.placeholder | default: 'Email address' }}"
+        />
+        <button class="prive-submit" type="submit">{{ section.settings.button_label | default: 'Join the List →' }}</button>
+        {%- if form.errors -%}
+          <p style="color:#c0392b;font-size:11px;width:100%;text-align:center;margin-top:8px;">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="prive-perks r d4">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'perk' -%}
+            <div class="prive-perk" {{ block.shopify_attributes }}>
+              <span class="prive-perk-dot" aria-hidden="true"></span>
+              {{ block.settings.text }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.fine_print != blank -%}
+      <p class="r" style="font-family:var(--sans);font-size:9.5px;letter-spacing:0.12em;color:rgba(255,255,255,0.24);margin-top:20px;">{{ section.settings.fine_print }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Privé Newsletter",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Private List"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Be first to know what arrives next."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Receive launch previews, private bundle privileges, scent education and early access to limited drops."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Join the List →"
+    },
+    {
+      "type": "text",
+      "id": "fine_print",
+      "label": "Fine print",
+      "default": "Thoughtful updates only. Unsubscribe whenever you like."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "perk",
+      "name": "Perk",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Perk text",
+          "default": "Early access to new drops"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Privé Newsletter",
+      "blocks": [
+        { "type": "perk", "settings": { "text": "Early access to new drops" } },
+        { "type": "perk", "settings": { "text": "Private bundle privileges" } },
+        { "type": "perk", "settings": { "text": "Scent education" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

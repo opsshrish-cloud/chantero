@@ -1,0 +1,145 @@
+<section class="discovery" id="discovery" aria-labelledby="discoveryHeading">
+
+  {%- if section.settings.bg_image != blank -%}
+    {{
+      section.settings.bg_image
+      | image_url: width: 1400
+      | image_tag:
+        class: 'discovery-bg',
+        loading: 'lazy',
+        alt: ''
+    }}
+  {%- else -%}
+    <img
+      src="{{ 'try-before-you-commit.webp' | asset_url }}"
+      alt=""
+      class="discovery-bg"
+      loading="lazy"
+      aria-hidden="true"
+      width="1920"
+      height="1080"
+    />
+  {%- endif -%}
+
+  <div class="discovery-inner wrap">
+    <div class="discovery-left">
+      <span class="section-label r"><span class="rule"></span>{{ section.settings.label | default: 'Discovery First' }}</span>
+      <h2 class="discovery-title r d1" id="discoveryHeading">{{ section.settings.heading | default: 'Wear it for a day. Then decide.' }}</h2>
+      <p class="discovery-text r d2">{{ section.settings.body | default: 'Fragrance changes with skin, heat and time. Start with a 3ml vial, live with the scent, and move to a full bottle only when it feels right.' }}</p>
+
+      {%- if section.settings.note != blank -%}
+        <p class="discovery-note r d2">{{ section.settings.note }}</p>
+      {%- endif -%}
+
+      <div class="r d3" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;">
+        {%- if section.settings.cta_primary_label != blank -%}
+          <a class="btn btn-gold" href="{{ section.settings.cta_primary_url | default: routes.collections_url }}">{{ section.settings.cta_primary_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.cta_secondary_label != blank -%}
+          <a class="btn btn-outline-cream" href="{{ section.settings.cta_secondary_url | default: '#' }}">{{ section.settings.cta_secondary_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="discovery-right r d2">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 700
+          | image_tag:
+            class: 'discovery-img',
+            loading: 'lazy',
+            alt: section.settings.image.alt | default: 'Discovery sampler'
+        }}
+      {%- else -%}
+        <img
+          src="{{ 'bequest-sampler-1.png' | asset_url }}"
+          alt="Chantèro discovery sample set"
+          class="discovery-img"
+          loading="lazy"
+          width="560"
+          height="700"
+        />
+      {%- endif -%}
+      {%- if section.settings.price_badge != blank -%}
+        <div class="discovery-img-badge">
+          <span class="badge">{{ section.settings.price_badge }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Discovery Sampler",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Discovery First"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Wear it for a day. Then decide."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Fragrance changes with skin, heat and time. Start with a 3ml vial, live with the scent, and move to a full bottle only when it feels right."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Footnote"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary button label",
+      "default": "Start with Samples"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary button label",
+      "default": "Get Matched"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "price_badge",
+      "label": "Price badge text",
+      "default": "₹200 · Per Sample · 3ml"
+    }
+  ],
+  "presets": [
+    { "name": "Discovery Sampler" }
+  ]
+}
+{% endschema %}

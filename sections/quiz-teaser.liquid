@@ -1,0 +1,147 @@
+<section class="quiz-teaser" aria-labelledby="quizTeaserHeading">
+  {%- if section.settings.bg_image != blank -%}
+    {{
+      section.settings.bg_image
+      | image_url: width: 1600
+      | image_tag:
+        class: 'quiz-teaser-bg',
+        loading: 'lazy',
+        alt: '',
+        style: 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.28;z-index:0;'
+    }}
+  {%- else -%}
+    <img
+      src="{{ 'scent-finder-editorial.jpg' | asset_url }}"
+      alt=""
+      class="quiz-teaser-bg"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.28;z-index:0;"
+      loading="lazy"
+      aria-hidden="true"
+      width="1600"
+      height="900"
+    />
+  {%- endif -%}
+
+  <div class="quiz-teaser-inner wrap" style="position:relative;z-index:1;">
+    <div class="quiz-teaser-text r">
+      <span class="section-label" style="color:var(--gold);"><span class="rule"></span>{{ section.settings.label | default: 'Scent Match' }}</span>
+      <h2 class="quiz-teaser-title" id="quizTeaserHeading" style="margin-top:16px;">{{ section.settings.heading | default: 'Let your routine choose your fragrance.' }}</h2>
+      <p class="quiz-teaser-body">{{ section.settings.body | default: 'Tell us where you wear scent, how bold you like it, and which notes pull you in. We will suggest the best Chantèro match.' }}</p>
+      {%- if section.settings.cta_label != blank -%}
+        <a class="btn btn-gold" style="display:inline-flex;" href="{{ section.settings.cta_url | default: '#' }}">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="quiz-img-grid r d1">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'image' -%}
+          <a class="quiz-img-grid-item" href="{{ section.settings.cta_url | default: '#' }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 400
+                | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.label | default: '',
+                  width: 400,
+                  height: 400
+              }}
+            {%- elsif block.settings.image_asset != blank -%}
+              <img
+                src="{{ block.settings.image_asset | asset_url }}"
+                alt="{{ block.settings.label | default: '' }}"
+                loading="lazy"
+                width="400"
+                height="400"
+              />
+            {%- endif -%}
+            {%- if block.settings.label != blank -%}
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(11,9,7,0.60) 0%,transparent 50%);display:flex;align-items:flex-end;padding:16px;">
+                <span style="font-family:var(--sans);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.80);">{{ block.settings.label }}</span>
+              </div>
+            {%- endif -%}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Quiz Teaser",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Scent Match"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Let your routine choose your fragrance."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Tell us where you wear scent, how bold you like it, and which notes pull you in. We will suggest the best Chantèro match."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Start the Match →"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Grid image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Asset filename",
+          "placeholder": "bequest-2.png"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "For Him"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quiz Teaser",
+      "blocks": [
+        { "type": "image", "settings": { "image_asset": "bequest-2.png", "label": "For Him" } },
+        { "type": "image", "settings": { "image_asset": "dame-2.png", "label": "For Her" } },
+        { "type": "image", "settings": { "image_asset": "velvet-1.png", "label": "Daily Ritual" } },
+        { "type": "image", "settings": { "image_asset": "scent-finder-card.jpg", "label": "Evening Mood" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

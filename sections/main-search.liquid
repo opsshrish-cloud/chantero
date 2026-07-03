@@ -1,0 +1,46 @@
+<div class="search-wrap wrap">
+  <form action="{{ routes.search_url }}" method="get" class="search-form r" role="search">
+    <input type="hidden" name="type" value="product" />
+    <input
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ 'general.search.placeholder' | t | default: 'Search fragrances…' }}"
+      aria-label="{{ 'general.search.placeholder' | t | default: 'Search' }}"
+      class="search-input"
+      autofocus
+    />
+    <button type="submit" class="btn btn-gold" aria-label="{{ 'general.search.submit' | t | default: 'Search' }}">
+      {{ 'general.search.submit' | t | default: 'Search' }}
+    </button>
+  </form>
+
+  {%- if search.performed -%}
+    {%- if search.results_count == 0 -%}
+      <p class="search-empty r d1">{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+    {%- else -%}
+      <p class="search-count r">{{ 'general.search.results_count' | t: count: search.results_count, terms: search.terms }}</p>
+      <div class="collection-grid r d1">
+        {%- for result in search.results -%}
+          {%- if result.object_type == 'product' -%}
+            {%- assign delay_n    = forloop.index0 | modulo: 5 -%}
+            {%- assign card_class = 'cs-card r d' | append: delay_n -%}
+            {%- render 'product-card',
+              card_product: result,
+              card_class: card_class,
+              img_class: 'cs-img',
+              wrap_class: 'cs-img-wrap'
+            -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Search",
+  "tag": "div"
+}
+{% endschema %}

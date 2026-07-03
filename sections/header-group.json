@@ -1,0 +1,41 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "bar_enabled": true
+      },
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "text": "Complimentary shipping above ₹6,500"
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "text": "Free 3ml sample with every full bottle",
+            "link_text": "Try first"
+          }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "text": "Crafted in France. Culminated in India."
+          }
+        }
+      },
+      "blocks_order": ["slide-1", "slide-2", "slide-3"]
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "main_menu": "main-menu"
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

@@ -1,0 +1,39 @@
+{%- comment -%}
+  Reusable product card — used in collection, gift section, YMAL, cross-sell.
+  Usage: {% render 'product-card', card_product: product, card_class: 'cs-card' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign card_product = card_product | default: product
+  assign card_class   = card_class   | default: 'product-card'
+  assign img_class    = img_class    | default: 'cs-img'
+  assign wrap_class   = wrap_class   | default: 'cs-img-wrap'
+  assign card_image_alt = card_product.featured_image.alt | default: card_product.title | escape
+-%}
+
+<a href="{{ card_product.url }}" class="{{ card_class }}">
+  <div class="{{ wrap_class }}">
+    {%- if card_product.featured_image -%}
+      {{
+        card_product.featured_image
+        | image_url: width: 600
+        | image_tag:
+          loading: 'lazy',
+          class: img_class,
+          alt: card_image_alt,
+          widths: '300, 600, 900'
+      }}
+    {%- else -%}
+      <div class="{{ img_class }}" style="background:var(--d3);"></div>
+    {%- endif -%}
+  </div>
+  <div class="cs-info">
+    <div>
+      <div class="cs-name">{{ card_product.title }}</div>
+      {%- if card_product.vendor != blank -%}
+        <div class="cs-sub">{{ card_product.vendor }}</div>
+      {%- endif -%}
+    </div>
+    {%- render 'price', product: card_product -%}
+  </div>
+</a>
